@@ -1,0 +1,58 @@
+name: Hosted mathematics
+
+on:
+  push:
+    paths:
+      - '.github/workflows/hosted_math.yml'
+      - 'verification/hosted/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated browser dependencies
+        run: |
+          npm install --prefix "$RUNNER_TEMP/hosted-deps" playwright@1.56.1 mathjax-full@3.2.1
+          "$RUNNER_TEMP/hosted-deps/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Capture the actual pinned GitHub renderer
+        env:
+          NODE_PATH: ${{ runner.temp }}/hosted-deps/node_modules
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          cfg=json.loads(pathlib.Path('verification/hosted/config.json').read_text())
+          revision=cfg['revision']
+          if revision=='HEAD':
+              revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          mode=cfg['mode']
+          if mode not in ('probe','capture'):
+              raise SystemExit('Unknown capture mode')
+          script='probe_hosted_math.cjs' if mode=='probe' else 'capture_hosted_math.cjs'
+          args=['node','verification/hosted/'+script,'--root',str(pathlib.Path.cwd()),'--repository',os.environ['GITHUB_REPOSITORY'],'--revision',revision,'--output',os.environ['RUNNER_TEMP']+'/hosted-evidence']
+          if mode=='probe':
+              args+=['--page',cfg['page']]
+          raise SystemExit(subprocess.call(args))
+          PY
+      - name: Retain complete capture evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hosted-mathematics-${{ github.run_id }}
+          path: ${{ runner.temp }}/hosted-evidence
+          if-no-files-found: warn
+          retention-days: 14
