@@ -79,7 +79,7 @@ Every sorted set of keys has exactly one original input ordering for each permut
 The distinctness projector is implemented by checking adjacent sorted keys for equality. Reflections about the initial all-zero state and this good subspace give coherent fixed-point amplitude amplification. Since $`p\ge3/4`$, a unitary $`K_\eta`$ using $`O(\log(1/\eta))`$ calls to the key-preparation circuit and its inverse satisfies
 
 $$
-\|K_\eta|0\rangle-|\mathcal F\rangle|\mathcal R\rangle\|\le\eta. \tag{2}
+\Vert K_\eta|0\rangle-|\mathcal F\rangle|\mathcal R\rangle\Vert \le\eta. \tag{2}
 $$
 
 Ancillas used to compute the predicate are uncomputed. Equation (2) permits a harmless global good-sector phase to be absorbed into the mathematical definition of $`K_\eta`$; its physical value cancels when the same circuit's inverse is applied below, so it need not be learned. This is a coherent fixed-point construction, not a measured retry loop; its inverse is available. The fixed-point primitive is inherited from [Yoder, Low and Chuang](https://arxiv.org/abs/1409.3305). Its only data here are the known particle count and key range, and it never queries the graph.
@@ -144,8 +144,8 @@ The phase $`\det(\Omega)`$ is independent of $`T`$ and of the graph. The only re
 The resource circuit (2) is used once forward and once backward. For the ideal main circuit, its preparation error contributes at most $`\eta`$ by unitary invariance. Conversely,
 
 $$
-\|K_\eta^\dagger|\mathcal F,\mathcal R\rangle-|0\rangle\|
-=\||\mathcal F,\mathcal R\rangle-K_\eta|0\rangle\|\le\eta.
+\Vert K_\eta^\dagger|\mathcal F,\mathcal R\rangle-|0\rangle\Vert 
+=\Vert |\mathcal F,\mathcal R\rangle-K_\eta|0\rangle\Vert \le\eta.
 $$
 
 Thus the entire universal-resource contribution is at most $`2\eta`$. No assumption about the errors' record distribution is needed.

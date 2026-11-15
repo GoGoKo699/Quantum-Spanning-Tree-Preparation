@@ -38,8 +38,8 @@ All amplitudes are positive in this encoding. The target is stronger than a sign
 **Theorem.** For every graph and gap promise above, and every $`0<\epsilon<1/10`$, there is a reversible preparation circuit $`\mathcal U_{G,\epsilon}`$ such that, up to an irrelevant global phase,
 
 $$
-\left\|\mathcal U_{G,\epsilon}|0\rangle
--|\operatorname{UST}(G)\rangle|0\rangle_{\mathrm{work}}\right\|\le\epsilon.
+\left\Vert \mathcal U_{G,\epsilon}|0\rangle
+-|\operatorname{UST}(G)\rangle|0\rangle_{\mathrm{work}}\right\Vert \le\epsilon.
 $$
 
 It uses

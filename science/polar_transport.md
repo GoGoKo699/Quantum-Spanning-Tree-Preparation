@@ -35,7 +35,7 @@ A^\dagger A
 =\frac{I-P}{2}.
 $$
 
-The last equality follows entrywise: $`V^\dagger RV`$ has entry $`1/d`$ precisely for adjacent vertices. In particular $`\|A\|\le1`$. Connectivity makes its kernel exactly the uniform vector
+The last equality follows entrywise: $`V^\dagger RV`$ has entry $`1/d`$ precisely for adjacent vertices. In particular $`\Vert A\Vert \le1`$. Connectivity makes its kernel exactly the uniform vector
 
 $$
 |s\rangle=\frac1{\sqrt n}\sum_{v=0}^{n-1}|v\rangle.
@@ -76,7 +76,7 @@ $$
 Both vectors have norm one, so
 
 $$
-\|U_p|\psi\rangle-|W\psi\rangle\|^2\le2\delta.
+\Vert U_p|\psi\rangle-|W\psi\rangle\Vert ^2\le2\delta.
 $$
 
 This proves a uniform isometry error of $`\sqrt{2\delta}`$, including every failure component outside the projected output. It also holds with an arbitrary reference system. The ideal output control $`c=1`$ and any real-polynomial branch state $`|+\rangle`$ are known fixed states; apply $`X`$ and $`H`$, respectively, to return them to zero. Other designated constant ancillary states are treated in the same way. These constant-cost operations preserve the error bound and permit serial reuse of the one-particle workspace. Setting $`\delta=\Theta((\epsilon/n)^2)`$ gives one-particle error $`O(\epsilon/n)`$ while retaining $`D=O(\gamma^{-1/2}\log(n/\epsilon))`$. Approximate gate synthesis is added by an operator-norm hybrid bound in [resources](resources.md).

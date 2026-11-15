@@ -1,5 +1,6 @@
 {
   "mode": "probe",
   "revision": "HEAD",
-  "page": "science/interpretation.md"
+  "page": "science/interpretation.md",
+  "probe_note": "Explicit norm delimiters preserve the same MathML symbol across GitHub and MathJax3"
 }

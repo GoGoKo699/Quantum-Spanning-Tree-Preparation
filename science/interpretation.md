@@ -46,7 +46,7 @@ This is a coherent state on edge lists. Measuring it returns a uniformly random 
 Let $`U_G`$ be the clean preparation circuit and let $`|\Omega_G\rangle=|\mathrm{UST}(G)\rangle|0_{\mathrm{work}}\rangle`$. If
 
 ```math
-\|U_G|0\rangle-|\Omega_G\rangle\|\leq\eta,
+\Vert U_G|0\rangle-|\Omega_G\rangle\Vert \leq\eta,
 ```
 
 then $`U_G(2|0\rangle\langle0|-I)U_G^\dagger`$ is an approximate reflection about $`|\Omega_G\rangle`$. Its operator-norm error is at most $`2\eta`$: the difference of the two rank-one projectors has norm equal to the sine of their angle, which is at most their Euclidean state distance. The reflection costs one preparation, one inverse and the all-zero phase test. The [resource account](resources.md) includes these operations.
