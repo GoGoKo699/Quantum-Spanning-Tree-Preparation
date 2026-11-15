@@ -6,19 +6,19 @@ The polar map supplies orthonormal edge orbitals. Filling all $`n-1`$ vertex mod
 
 The vertex register is padded to a power of two. A generic state-preparation unitary whose first column is the uniform valid-range state would not be sufficient: its other columns might leave the valid $`n`$-dimensional space. Use instead the explicit Householder reflection
 
-$$
+```math
 H_s=I-2|v_s\rangle\langle v_s|,
 \qquad
 |v_s\rangle=\frac{|0\rangle-|s\rangle}{\sqrt{2-2/\sqrt n}}.
-$$
+```
 
 It maps $`|0\rangle`$ to $`|s\rangle`$, and preserves the valid vertex space because $`v_s`$ is supported there. Thus
 
-$$
+```math
 Q=\bigl[H_s|1\rangle\ \cdots\ H_s|n-1\rangle\bigr]
-$$
+```
 
-has orthonormal columns spanning $`s^\perp`$. This works for arbitrary $`n\ge2`$.
+has orthonormal columns spanning $`s^\bot`$. This works for arbitrary $`n\ge2`$.
 
 The state $`v_s`$ has one amplitude at zero and a second, equal amplitude at every nonzero valid label. Its squared mass at zero is $`(1-1/\sqrt n)/2`$, and the remaining mass $`(1+1/\sqrt n)/2`$ is uniform over $`1,\ldots,n-1`$, with negative amplitude. It is prepared without a table by binary-prefix rotations. At a prefix, its probability weight is the distinct zero-label weight, if that label is present, plus the common nonzero-label weight times the number of valid nonzero completions. The conditional probability for the next bit is the ratio of these explicit weights.
 
@@ -34,53 +34,53 @@ Put $`r=n-1`$. Fix one sorting-network topology on the records, for example a bi
 
 For any strictly increasing tuple $`x=(x_1,\ldots,x_r)`$ and any permutation $`\pi`$, reversible sorting gives
 
-$$
+```math
 S|\pi x\rangle|0^C\rangle
 =|x\rangle|\rho(\pi)\rangle.
-$$
+```
 
 The record $`\rho(\pi)`$ depends only on the relative ranks of the entries, not their numerical values or their bit width. Distinct permutations have distinct records because the sort is reversible. The parity of the actual comparator transpositions is the parity of $`\pi`$.
 
 Define $`T`$ by applying the sort and then the phase $`(-1)^{\text{number of recorded swaps}}`$. With
 
-$$
-\operatorname{Alt}|x\rangle
-=\frac1{\sqrt{r!}}\sum_{\pi\in S_r}\operatorname{sgn}(\pi)|\pi x\rangle,
+```math
+\mathrm{Alt}|x\rangle
+=\frac1{\sqrt{r!}}\sum_{\pi\in S_r}\mathrm{sgn}(\pi)|\pi x\rangle,
 \qquad
 |\mathcal R\rangle=\frac1{\sqrt{r!}}\sum_{\pi\in S_r}|\rho(\pi)\rangle,
-$$
+```
 
 the two signs cancel, giving the exact identity
 
-$$
-T\operatorname{Alt}|x\rangle|0^C\rangle
+```math
+T\mathrm{Alt}|x\rangle|0^C\rangle
 =|x\rangle|\mathcal R\rangle. \tag{1}
-$$
+```
 
 It holds by linearity for every superposition of distinct sorted tuples. In particular, the record on the right is independent of the set encoded by $`x`$. This is the sorting-network antisymmetrization mechanism of [Berry and collaborators](https://doi.org/10.1038/s41534-018-0071-5), with its universal work state kept explicit.
 
 Here is an efficient, entirely coherent preparation of the needed resource. Choose a power of two $`M\ge2r^2`$, prepare $`r`$ independent uniform $`M`$-ary keys, and sort them reversibly with the same network, without the parity phase. The probability of distinct keys is
 
-$$
+```math
 p=\frac{M(M-1)\cdots(M-r+1)}{M^r}\ge1-\frac{r(r-1)}{2M}\ge\frac34.
-$$
+```
 
 Conditioned on distinct keys, the sorted keys and comparator record factor exactly:
 
-$$
+```math
 |\mathcal F\rangle|\mathcal R\rangle,
 \qquad
 |\mathcal F\rangle
 =\binom Mr^{-1/2}\sum_{0\le a_1<\cdots<a_r<M}|a_1,\ldots,a_r\rangle.
-$$
+```
 
 Every sorted set of keys has exactly one original input ordering for each permutation, all with equal positive amplitude. This proves the factorization, rather than assuming that an unobserved seed can be erased.
 
 The distinctness projector is implemented by checking adjacent sorted keys for equality. Reflections about the initial all-zero state and this good subspace give coherent fixed-point amplitude amplification. Since $`p\ge3/4`$, a unitary $`K_\eta`$ using $`O(\log(1/\eta))`$ calls to the key-preparation circuit and its inverse satisfies
 
-$$
+```math
 \Vert K_\eta|0\rangle-|\mathcal F\rangle|\mathcal R\rangle\Vert \le\eta. \tag{2}
-$$
+```
 
 Ancillas used to compute the predicate are uncomputed. Equation (2) permits a harmless global good-sector phase to be absorbed into the mathematical definition of $`K_\eta`$; its physical value cancels when the same circuit's inverse is applied below, so it need not be learned. This is a coherent fixed-point construction, not a measured retry loop; its inverse is available. The fixed-point primitive is inherited from [Yoder, Low and Chuang](https://arxiv.org/abs/1409.3305). Its only data here are the known particle count and key range, and it never queries the graph.
 
@@ -90,18 +90,18 @@ The special case $`r=1`$ has no comparator record and no collisions; it is inclu
 
 Initialize the sorted particle tuple $`(1,\ldots,r)`$ in vertex registers. Prepare $`\mathcal F,\mathcal R`$ with $`K_\eta`$. Applying $`T_{\mathrm{vertex}}^\dagger`$ to this known tuple and the record register uses (1) to give
 
-$$
-\operatorname{Alt}|1,\ldots,r\rangle\otimes|\mathcal F\rangle\otimes|0^C\rangle
-$$
+```math
+\mathrm{Alt}|1,\ldots,r\rangle\otimes|\mathcal F\rangle\otimes|0^C\rangle
+```
 
-in the ideal resource limit. Apply $`H_s`$ to every particle, then the polar transport and canonical endpoint conversion from [the one-particle construction](polar_transport.md) to every particle. Every orbital begins in $`s^\perp`$, so polar transport is isometric on all occupied modes.
+in the ideal resource limit. Apply $`H_s`$ to every particle, then the polar transport and canonical endpoint conversion from [the one-particle construction](polar_transport.md) to every particle. Every orbital begins in $`s^\bot`$, so polar transport is isometric on all occupied modes.
 
 The result is a Slater state in the edge orbitals $`W_EQ`$. Apply $`T_{\mathrm{edge}}`$ to sort the particle edge labels. Its topology is identical to that of $`T_{\mathrm{vertex}}`$ and the key sort; different logical payload widths are embedded in the common padded word width specified above. Equation (1) returns the same record $`\mathcal R`$, so the full state factors as
 
-$$
+```math
 \sum_{S:\,|S|=r}\det((W_EQ)_S)|S\rangle
 \otimes|\mathcal F\rangle|\mathcal R\rangle.
-$$
+```
 
 Apply $`K_\eta^\dagger`$ to the key and record registers. In the ideal resource limit this returns all of them to zero. Only the graph-dependent determinant amplitudes remain in the sorted edge register. There is no measurement or discarded graph-dependent garbage at any stage.
 
@@ -109,9 +109,9 @@ Apply $`K_\eta^\dagger`$ to the key and record registers. In the ideal resource 
 
 Let $`L=B^\dagger B`$, and put $`M_Q=Q^\dagger LQ`$. The folded polar map satisfies
 
-$$
+```math
 W_EQ=BQ M_Q^{-1/2}.
-$$
+```
 
 The columns on the right are orthonormal. Expanding their Slater determinant and grouping the $`r!`$ permutations of each sorted subset gives the amplitude $`\det((W_EQ)_S)`$ shown above. There is no additional factorial in the sorted-subset amplitude: the normalized antisymmetric basis already contains $`1/\sqrt{r!}`$.
 
@@ -119,23 +119,23 @@ If $`S`$ is not a spanning tree, its $`n-1`$ incidence rows are rank deficient, 
 
 Set $`\Omega=[s\ Q]`$, a unitary $`n\times n`$ matrix. The matrix with first row $`s^\dagger`$ and remaining rows $`B_T`$ obeys
 
-$$
+```math
 \begin{bmatrix}s^\dagger\\ B_T\end{bmatrix}\Omega
 =\begin{bmatrix}1&0\\0&B_TQ\end{bmatrix}.
-$$
+```
 
 The signed maximal cofactors of $`B_T`$ form its right-kernel vector. Its kernel is the constant vector, hence all these signed cofactors equal $`\det\overline B_T`$. Expanding the first row of the matrix on the left therefore gives $`\sqrt n\det\overline B_T`$. Taking determinants yields
 
-$$
+```math
 \det(B_TQ)=\det(\Omega)\sqrt n\det\overline B_T.
-$$
+```
 
 The matrix-tree theorem gives $`\det M_Q=n\tau(G)`$, equivalently the product of the nonzero Laplacian eigenvalues is $`n\tau(G)`$. Consequently
 
-$$
+```math
 \det((W_EQ)_T)
 =\det(\Omega)\frac{\det\overline B_T}{\sqrt{\tau(G)}}. \tag{3}
-$$
+```
 
 The phase $`\det(\Omega)`$ is independent of $`T`$ and of the graph. The only remaining relative sign is the rooted incidence determinant. The [sign circuit](sign_cleanup.md) computes that sign in soft-linear ordinary gates, applies its phase, and uncomputes its workspace. Equation (3) then gives the positive target state, up to the fixed global phase.
 
@@ -143,14 +143,14 @@ The phase $`\det(\Omega)`$ is independent of $`T`$ and of the graph. The only re
 
 The resource circuit (2) is used once forward and once backward. For the ideal main circuit, its preparation error contributes at most $`\eta`$ by unitary invariance. Conversely,
 
-$$
+```math
 \Vert K_\eta^\dagger|\mathcal F,\mathcal R\rangle-|0\rangle\Vert 
 =\Vert |\mathcal F,\mathcal R\rangle-K_\eta|0\rangle\Vert \le\eta.
-$$
+```
 
 Thus the entire universal-resource contribution is at most $`2\eta`$. No assumption about the errors' record distribution is needed.
 
-For the particle operations, compare the actual circuit with the ideal circuit one particle at a time. Each ideal input is in the occupied $`s^\perp`$ space with clean work, even though the particles are entangled by antisymmetry. The full isometry bound in [polar transport](polar_transport.md) holds with a reference, so a one-particle error at most $`\zeta`$ gives total error at most $`r\zeta`$. The same hybrid argument applies to the approximate $`H_s`$ reflections and compiled oracle-independent rotations. Choose the resource error and synthesis tolerances so that $`2\eta+r\zeta`$ and all remaining synthesis errors sum to at most $`\epsilon`$; one concrete allocation is given in [resources](resources.md).
+For the particle operations, compare the actual circuit with the ideal circuit one particle at a time. Each ideal input is in the occupied $`s^\bot`$ space with clean work, even though the particles are entangled by antisymmetry. The full isometry bound in [polar transport](polar_transport.md) holds with a reference, so a one-particle error at most $`\zeta`$ gives total error at most $`r\zeta`$. The same hybrid argument applies to the approximate $`H_s`$ reflections and compiled oracle-independent rotations. Choose the resource error and synthesis tolerances so that $`2\eta+r\zeta`$ and all remaining synthesis errors sum to at most $`\epsilon`$; one concrete allocation is given in [resources](resources.md).
 
 Sorting and sign computation are total reversible circuits. Their arbitrary action on malformed labels does not enlarge the distance from the exact tree-supported state. All ideal work registers return to zero; the resulting joint-state norm bound proves the theorem's simultaneous output and workspace statement.
 

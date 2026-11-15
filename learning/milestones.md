@@ -311,7 +311,7 @@ Prerequisites: M05, M15, M16
 
 **Central question:** How does an antisymmetric pair of ports become one clean endpoint-encoded edge?
 
-**Understanding target:** Trace the reversible folding of the two ports of an edge into a canonical label and one fixed orientation state. Explain why the orientation qubit can be cleaned, why the resulting map is $`B(L|_{s^\perp})^{-1/2}`$, and where sorted neighbor access pays for erasing the old port index.
+**Understanding target:** Trace the reversible folding of the two ports of an edge into a canonical label and one fixed orientation state. Explain why the orientation qubit can be cleaned, why the resulting map is $`B(L|_{s^\bot})^{-1/2}`$, and where sorted neighbor access pays for erasing the old port index.
 
 **Story role:** Complete the one-particle route in the same output labels used by the theorem and lower bound.
 

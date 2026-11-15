@@ -23,15 +23,15 @@ For a $`d`$-regular graph, $`m=nd/2`$. At a constant normalized gap, the direct 
 
 The mechanism is a singular-gap statement. With explicit uniform-port loading $`V`$ and the involutive port reversal $`R`$ from the stated interface, the projected map
 
-$$
+```math
 A=\frac{I-R}{2}V
-$$
+```
 
 obeys
 
-$$
+```math
 A^\dagger A=\frac{I-P}{2}.
-$$
+```
 
 Its known kernel is the uniform vertex vector. Polar transport on the orthogonal complement therefore avoids both a dense classical orthogonalization and multiplication of unorthogonalized columns with determinant-dependent postselection. Exterior powers and the matrix-tree identity turn its minors into equal-magnitude tree amplitudes. The rooted-tree sign computation is needed to obtain positive amplitudes rather than merely the correct measurement distribution.
 

@@ -2,12 +2,12 @@
 
 The incidence-polar construction first produces a signed spanning-tree state. This chapter gives a reversible circuit that removes those signs in
 
-$$
+```math
 O\!\left(n\log ^4(n+2)\right)
 \quad\text{elementary gates and}\quad
 O\!\left(n\log ^3(n+2)\right)
 \quad\text{scratch qubits}.
-$$
+```
 
 The circuit uses fixed wires, sorting networks and ordinary reversible arithmetic. It has no QRAM or data-dependent memory-access instruction. The bounds include computation and uncomputation; they do not optimize logarithms or constants.
 
@@ -17,21 +17,21 @@ Vertices are labelled $`0,\ldots,n-1`$, and the root is vertex $`0`$. Assume $`n
 
 For an edge $`e`$, let $`c(e)`$ be its child endpoint when the tree is rooted at $`0`$, and put
 
-$$
+```math
 s_e=B_{e,c(e)}\in\{+1,-1\}.
-$$
+```
 
 The children, in input-edge order, are a permutation of $`1,\ldots,n-1`$. Let $`\sigma`$ sort that list into increasing order. Then
 
-$$
+```math
 \boxed{\det\bar B_T
-=\operatorname{sgn}(\sigma)\prod_{e\in T}s_e.}
+=\mathrm{sgn}(\sigma)\prod_{e\in T}s_e.}
 \tag{1}
-$$
+```
 
 To prove (1), multiply row $`e`$ by $`s_e`$, then reorder the rows by their child labels. The resulting matrix is $`I-K`$, where $`K_{v,w}=1`$ if $`w\neq0`$ is the parent of $`v`$. Every parent chain reaches the root, so $`K`$ is nilpotent and $`\det(I-K)=1`$. Row scaling and row permutation give (1). Thus the desired phase is the parity of the child-label sorting permutation, XOR the number of negative $`s_e`$.
 
-The sign of a permutation is the parity of the transpositions actually performed by any sorting network. Recording and XORing each comparator's conditional-swap bit therefore gives $`\operatorname{sgn}(\sigma)`$, without evaluating a determinant.
+The sign of a permutation is the parity of the transpositions actually performed by any sorting network. Recording and XORing each comparator's conditional-swap bit therefore gives $`\mathrm{sgn}(\sigma)`$, without evaluating a determinant.
 
 ## A fixed-network lookup primitive
 
@@ -48,11 +48,11 @@ Here is an explicit prefix broadcast. Initially a data record has `valid=1` and 
 
 A bitonic network on $`N=O(n)`$ records of $`O(\log n)`$ bits uses $`O(N\log^2N)`$ comparators, each costing $`O(\log n)`$ gates. A sort therefore costs $`O(n\log^3 n)`$ gates and retains $`O(n\log^2n)`$ comparator bits. The above prefix circuit uses $`O(n\log^2 n)`$ gates and history qubits. Consequently one complete join costs
 
-$$
+```math
 O(n\log^3 n)\text{ gates},\qquad
 O(n\log^2 n)\text{ retained scratch}.
 \tag{2}
-$$
+```
 
 Padding to the next power of two uses tagged dummy records with a sentinel key and does not change these bounds. The tags distinguish dummy records from every valid data/query record.
 
@@ -62,47 +62,47 @@ Expand the $`n-1`$ edges into $`L=2(n-1)`$ directed arcs. Give the two arcs of e
 
 For an arc $`h=(u\to v)`$, define
 
-$$
+```math
 P(h)=\mathrm{next}_v(\bar h),
 \tag{3}
-$$
+```
 
 where $`\bar h`$ is its reversal. This Euler-tour permutation is one cycle on all $`L`$ arcs when the input is a tree. One proof removes a leaf: reinserting its two arcs inserts the leaf visit at one corner of the smaller tree's cycle, preserving a single cycle. The single-edge tree starts the induction.
 
 The successor table in (3) is constructed without a variable-address read. In sorted outgoing-arc order, broadcast the first ID in each equal-tail run. The following record gives the cyclic successor except at the run's last record, which uses that broadcast first ID. For every outgoing record $`g`$, emit the pair
 
-$$
+```math
 (\bar g,\mathrm{next}_{\mathrm{tail}(g)}(g)).
-$$
+```
 
 Sorting these pairs by their first field restores the successor table to fixed arc-ID order. Reversal is a fixed bit operation, so every key occurs once.
 
 Let $`a`$ be the root's first outgoing arc. Its predecessor is
 
-$$
+```math
 z=\overline{g_{\max}},
-$$
+```
 
 where $`g_{\max}`$ is the last outgoing arc in the root run. A boundary flag `tail=0` and `next-tail≠0` selects this unique record. A fixed XOR reduction of its flagged ID extracts $`g_{\max}`$. Such reductions copy computational-basis bit values coherently; they do not measure the tree. The root has at least one incident edge on every promised input.
 
 Break the cycle at $`z`$: initialize
 
-$$
+```math
 \mathrm{succ}_0(h)=
 \begin{cases}h,&h=z,\\P(h),&h\ne z,\end{cases}
 \qquad
 d_0(h)=\begin{cases}0,&h=z,\\1,&h\ne z.\end{cases}
-$$
+```
 
 Perform $`q=\lceil\log_2 L\rceil`$ simultaneous pointer-doubling rounds,
 
-$$
+```math
 \begin{aligned}
 \mathrm{succ}_{j+1}(h)&=\mathrm{succ}_{j}(\mathrm{succ}_{j}(h)),\\
 d_{j+1}(h)&=d_j(h)+d_j(\mathrm{succ}_{j}(h)).
 \end{aligned}
 \tag{4}
-$$
+```
 
 Use the batched join (2), keyed by $`\mathrm{succ}_j(h)`$, to obtain the right-hand-side values. The terminal becomes the target of many pointers; the repeated-key broadcast proof is why (4) remains valid after the first round. Fresh arrays preserve simultaneous-update semantics.
 
@@ -140,7 +140,7 @@ No gate is defined only on trees. Fixed sorting networks, comparisons, CNOT copi
 
 This total-circuit convention also handles the small non-tree component caused by approximate polar transport. If $`\lVert\widetilde\psi-\psi_{\mathrm{tree}}\rVert\leq\delta`$, applying the same unitary sign circuit preserves that distance. There is no postselection on being a tree and no amplification of leakage.
 
-Equation (1) must use the actual edge-row order presented to this circuit. An order change by a permutation $`\rho`$ changes the incidence minor by $`\operatorname{sgn}(\rho)`$. If labels are converted before inverse antisymmetrization, the resulting fermionic permutation is already represented in the determinant amplitude, and computing (1) in the new output order corrects it. If an already sorted list is relabelled and re-sorted without a fermionic sign, include the re-sorting parity explicitly. For lexicographically sorted adjacency lists, converting canonical port labels to canonical endpoint pairs preserves their order; nevertheless the endpoint conversion and any reverse-port search remain charged elsewhere in the algorithm.
+Equation (1) must use the actual edge-row order presented to this circuit. An order change by a permutation $`\rho`$ changes the incidence minor by $`\mathrm{sgn}(\rho)`$. If labels are converted before inverse antisymmetrization, the resulting fermionic permutation is already represented in the determinant amplitude, and computing (1) in the new output order corrects it. If an already sorted list is relabelled and re-sorted without a fermionic sign, include the re-sorting parity explicitly. For lexicographically sorted adjacency lists, converting canonical port labels to canonical endpoint pairs preserves their order; nevertheless the endpoint conversion and any reverse-port search remain charged elsewhere in the algorithm.
 
 If endpoints are already present, this circuit makes no graph queries. When its input stores canonical ports only, obtaining endpoints costs $`O(n)`$ rotation-map queries before the routine, followed by their inverse to erase the endpoint workspace. These costs are distinct from the gate bound for sign computation.
 

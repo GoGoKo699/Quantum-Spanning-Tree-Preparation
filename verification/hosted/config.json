@@ -1,4 +1,5 @@
 {
   "mode": "capture",
-  "revision": "HEAD"
+  "revision": "HEAD",
+  "formatting": "Fenced displays and portable operator and orthogonal-complement macros"
 }

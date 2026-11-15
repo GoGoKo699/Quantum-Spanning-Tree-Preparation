@@ -8,9 +8,9 @@ The [author's source page](https://www.cs.umd.edu/~amchilds/qa/) identifies the 
 
 Imagine four junctions, labelled $`0,1,2,3`$, connected by four links. The sorted edge list is
 
-$$
+```math
 (01),(03),(12),(23).
-$$
+```
 
 Here $`01`$ means the unordered endpoint pair $`\{0,1\}`$, written with its smaller endpoint first. The links form a cycle. Removing any one link leaves all four junctions connected and creates no cycle, so there are exactly four spanning trees.
 
@@ -18,15 +18,15 @@ Here $`01`$ means the unordered endpoint pair $`\{0,1\}`$, written with its smal
 
 A tree register stores three endpoint pairs in sorted order. Different lists are different computational-basis states, denoted by kets such as $`|01,03,12\rangle`$. The desired state is
 
-$$
-|\operatorname{UST}(C_4)\rangle
+```math
+|\mathrm{UST}(C_4)\rangle
 =\frac12\left(
 |01,03,12\rangle+
 |01,03,23\rangle+
 |01,12,23\rangle+
 |03,12,23\rangle
 \right).
-$$
+```
 
 A quantum amplitude determines a measurement probability through its squared magnitude. Every amplitude here is $`1/2`$, so each tree is observed with probability $`1/4`$.
 
@@ -55,23 +55,23 @@ For a larger graph, a succinct reversible graph circuit may be inexpensive. A ra
 
 A vertex state is a list of amplitudes, one for each vertex. Uniform-port loading $`V`$ replaces each vertex label by an equal superposition of its incident ports. Applying $`(I-R)/2`$ then takes the difference between the two ends of an edge. The resulting map is
 
-$$
+```math
 A=\frac{I-R}{2}V.
-$$
+```
 
 The subtraction makes edge orientation visible. If a vertex mode has the same amplitude at both ends of every edge, its differences vanish. In a connected graph the only such mode is the uniform vector
 
-$$
+```math
 |s\rangle=\frac12\left(|0\rangle+|1\rangle+|2\rangle+|3\rangle\right)
-$$
+```
 
 for this example.
 
 Let $`P`$ be the simple random-walk matrix: its entry $`P_{uv}`$ is $`1/d`$ when $`u`$ and $`v`$ are adjacent, and zero otherwise. The exact identity
 
-$$
+```math
 A^\dagger A=\frac{I-P}{2}
-$$
+```
 
 connects the edge-difference map to the graph spectrum. The dagger denotes the adjoint: here $`A^\dagger`$ maps edge modes back to vertex modes. An adjoint is an inverse for a unitary map; the present map $`A`$ is not unitary. The identity tells us how much $`A`$ stretches or shrinks each vertex direction.
 
@@ -81,7 +81,7 @@ The project needs the gap of $`I-P`$, not a gap in the absolute values of the ra
 
 ### 4. Preserve directions while equalizing their lengths
 
-The polar isometry $`W`$ keeps the input-to-output directions of $`A`$ and replaces every nonzero singular value by one. On $`s^\perp`$, the space orthogonal to the uniform vector, it therefore preserves lengths and inner products. The zero mode is excluded from the occupied input space.
+The polar isometry $`W`$ keeps the input-to-output directions of $`A`$ and replaces every nonzero singular value by one. On $`s^\bot`$, the space orthogonal to the uniform vector, it therefore preserves lengths and inner products. The zero mode is excluded from the occupied input space.
 
 QSVT, quantum singular-value transformation, implements this operation through a bounded polynomial that approximates the sign function away from zero. Its query cost depends on the inverse of the smallest nonzero singular value. Since that value is at least $`\sqrt{\gamma/2}`$, one particle costs order $`\gamma^{-1/2}`$, with logarithmic accuracy factors.
 
@@ -111,7 +111,7 @@ Orient each cycle edge from its smaller endpoint to its larger endpoint. Its inc
 
 For the first tree, with edges $`01,03,12`$ in that order, the reduced incidence matrix is
 
-$$
+```math
 \overline B_T=
 \begin{pmatrix}
 -1&0&0\\
@@ -120,7 +120,7 @@ $$
 \end{pmatrix},
 \qquad
 \det\overline B_T=+1.
-$$
+```
 
 After one common global phase choice, the polar/exterior-power construction gives:
 
@@ -145,9 +145,9 @@ The example ends with the four positive amplitudes and clean work registers. Mea
 
 For general $`n`$ and requested joint-state error $`\epsilon`$, the rotation-call bound is
 
-$$
+```math
 O\!\left(n\gamma^{-1/2}\log\frac n\epsilon\right).
-$$
+```
 
 The factor $`n`$ counts the occupied particle registers. The inverse square root of the gap comes from the one-particle polar transform. The logarithm pays for sufficiently accurate transforms so that their combined error remains at most $`\epsilon`$.
 
@@ -186,7 +186,7 @@ The source's block-encoding language is extended to two different projected inpu
 Four bridges are essential to the result and are developed locally:
 
 1. **Graph incidence to polar transport.** The projected graph circuit has unit normalization, a known kernel, and nonzero singular gap at least $`\sqrt{\gamma/2}`$.
-2. **One-particle maps to tree amplitudes.** Filling $`s^\perp`$, antisymmetrizing and applying the map on each register gives determinant amplitudes; the matrix-tree identity identifies and normalizes the trees.
+2. **One-particle maps to tree amplitudes.** Filling $`s^\bot`$, antisymmetrizing and applying the map on each register gives determinant amplitudes; the matrix-tree identity identifies and normalizes the trees.
 3. **A reusable universal permutation resource.** Coherent resource preparation, factorization and its inverse clean all permutation records.
 4. **Signed trees to positive endpoint trees.** Rooting, sign computation, sorted-access endpoint conversion and their inverses implement the required positive-amplitude encoding.
 

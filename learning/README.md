@@ -27,18 +27,18 @@ For a connected, simple, unweighted regular graph on $`n`$ vertices, assume a kn
 
 The preparation uses
 
-$$
+```math
 O\!\left(n\gamma^{-1/2}\log\frac n\epsilon\right)
-$$
+```
 
 rotation calls, up to the stated extra logarithmic conversion factor for sorted adjacency-list queries. If one clean rotation circuit costs $`C_R`$ gates and $`S_R`$ scratch qubits, the quantum cost is
 
-$$
+```math
 \widetilde O\!\left(n\gamma^{-1/2}(C_R+1)\right)
 \quad\text{gates},\qquad
 \widetilde O(n)+O(S_R)
 \quad\text{qubits}.
-$$
+```
 
 The work return and output error are one joint-state guarantee. The classical phase-compilation cost $`C_{\mathrm{phase}}`$ is also charged: at fixed positive gap it is polylogarithmic in the size and accuracy parameters, while a shrinking-gap total-time claim must retain it explicitly. See [resources](../science/resources.md) for the complete conventions.
 
