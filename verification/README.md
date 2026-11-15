@@ -14,6 +14,22 @@ the numerical observations in machine-readable form:
 python3 verification/run_all.py --json verification/report.json
 ```
 
+The separate [repository structure check](check_repository.py) verifies the
+selected learning route and local navigation:
+
+```bash
+python3 verification/check_repository.py --json verification/structure_report.json
+```
+
+It checks exactly M01–M30, this project's 14/16 phase allocation, resolvable earlier
+prerequisites and absence of dependency cycles, one selected Childs source dated
+17 April 2025, local file/heading targets, and reachability of reader pages from
+the root README. It also performs a bounded scan for private coaching/process
+paths and checkpoint markers. The report hashes the Markdown files it inspected.
+External links receive syntax checks only. Scientific qualifier agreement,
+explanatory quality, public/private meaning and source suitability require manual
+review; local structure does not certify those judgments or hosted mathematics.
+
 All graph instances, port permutations, perturbations and test parameters are
 deterministic. The only dependency is NumPy. The checked environment used
 Python 3.12.14 and NumPy 2.3.5; the report records the actual NumPy version of a run.
@@ -53,3 +69,9 @@ quantum query lower bound. The written arguments in `science/` establish those
 claims. Similarly, successful finite determinants and state simulations support
 the conventions and load-bearing identities without proving arbitrary-size
 correctness, novelty, journal significance or release readiness.
+
+## Actual-host mathematics
+
+The read-only `Hosted mathematics` workflow runs an anonymous Chromium context against exact commit-pinned public GitHub pages. `verification/hosted/config.json` selects a representative probe or the final all-Markdown capture. The collector inventories the pinned Git objects, compares accessible MathML structure and symbols with the source at widths 1440 and 760, and retains screenshots and machine-readable evidence as CI artifacts. The final report also requires human visual/source review; a probe or a local TeX compilation cannot establish complete hosted correctness.
+
+The browser dependencies are isolated from the scientific Python environment: Playwright 1.56.1 and MathJax 3.2.1. The generic collector, probe and checker are pinned together by their source hashes. They do not sign in, inject replacement mathematics into GitHub, change repository settings, or alter scientific content. CI artifacts expire; the final preservation record retains the important findings and exact source binding separately.

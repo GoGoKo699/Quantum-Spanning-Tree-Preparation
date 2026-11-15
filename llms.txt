@@ -3,6 +3,9 @@
 Prepare a clean positive uniform superposition of endpoint-encoded spanning trees of an unweighted connected regular graph under sorted neighbour/rotation access. Read the science/README.md overview first. The principal bound is soft-O(n/sqrt(gamma)) coherent graph-rotation queries, with graph implementation, oracle workspace and classical signal-processing compilation explicitly paid. Near-linear vertex scaling is matched at constant gap; no classical sampling speedup or optimal gap law is asserted. Arbitrarily ordered ports do not supply a free inverse-index locator for clean endpoint conversion.
 
 Routes:
+- One selected Childs anchor (17 April 2025), concrete four-cycle learning route: learning/README.md.
+- Source sections, notation translation and missing project-specific steps: learning/anchor_bridge.md.
+- Exactly 30 shared milestones (14 background, 16 narrative), with dependencies: learning/milestones.md.
 - Exact promises, output and error: science/model.md.
 - Incidence projected unitary, gap and polar QSVT: science/polar_transport.md.
 - Determinant amplitudes, universal sorting resource and complete clean preparation: science/coherent_preparation.md.
