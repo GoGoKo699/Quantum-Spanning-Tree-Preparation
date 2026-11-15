@@ -1,0 +1,226 @@
+{
+  "status": "passed",
+  "scope": "Deterministic dense small-instance mathematical support, not an all-size or circuit certification.",
+  "numpy_version": "2.3.5",
+  "tolerance": 3e-10,
+  "incidence_polar_and_minors": [
+    {
+      "graph": "K2",
+      "vertices": 2,
+      "degree": 1,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 2.0,
+      "trees": 1,
+      "tree_amplitude_error": 4.440892098500626e-16,
+      "non_tree_minor_max": 0.0,
+      "phase_spread": 0.0,
+      "probability_sum_error": 8.881784197001252e-16
+    },
+    {
+      "graph": "C3",
+      "vertices": 3,
+      "degree": 2,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 1.5,
+      "trees": 3,
+      "tree_amplitude_error": 2.220446049250313e-16,
+      "non_tree_minor_max": 0.0,
+      "phase_spread": 3.5688677054327643e-16,
+      "probability_sum_error": 0.0
+    },
+    {
+      "graph": "K4",
+      "vertices": 4,
+      "degree": 3,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 1.3333333333333335,
+      "trees": 16,
+      "tree_amplitude_error": 1.1102230246251565e-16,
+      "non_tree_minor_max": 3.5105875395368644e-17,
+      "phase_spread": 1.1107700814330524e-16,
+      "probability_sum_error": 2.220446049250313e-16
+    },
+    {
+      "graph": "C5",
+      "vertices": 5,
+      "degree": 2,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 0.6909830056250525,
+      "trees": 5,
+      "tree_amplitude_error": 2.220446049250313e-16,
+      "non_tree_minor_max": 0.0,
+      "phase_spread": 2.5438405243137996e-16,
+      "probability_sum_error": 2.220446049250313e-16
+    },
+    {
+      "graph": "K3_3",
+      "vertices": 6,
+      "degree": 3,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 1.0,
+      "trees": 81,
+      "tree_amplitude_error": 1.3877787807814457e-16,
+      "non_tree_minor_max": 5.690266943068221e-17,
+      "phase_spread": 1.7059584221736365e-16,
+      "probability_sum_error": 2.220446049250313e-15
+    },
+    {
+      "graph": "cube",
+      "vertices": 8,
+      "degree": 3,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 0.6666666666666659,
+      "trees": 384,
+      "tree_amplitude_error": 8.326672684688674e-17,
+      "non_tree_minor_max": 3.5149418122650127e-17,
+      "phase_spread": 7.676110544848728e-17,
+      "probability_sum_error": 4.9960036108132044e-15
+    },
+    {
+      "graph": "K5",
+      "vertices": 5,
+      "degree": 4,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 1.25,
+      "trees": 125,
+      "tree_amplitude_error": 2.498001805406602e-16,
+      "non_tree_minor_max": 9.547883167633263e-17,
+      "phase_spread": 1.8150109231835163e-16,
+      "probability_sum_error": 7.771561172376096e-16
+    },
+    {
+      "graph": "K6",
+      "vertices": 6,
+      "degree": 5,
+      "port_test_scope": "one-particle encoding, folding and minor identities; no endpoint-erasure cost",
+      "gap": 1.2,
+      "trees": 1296,
+      "tree_amplitude_error": 5.204170427930421e-17,
+      "non_tree_minor_max": 3.08682294601385e-17,
+      "phase_spread": 5.585276154004783e-17,
+      "probability_sum_error": 3.175237850427948e-14
+    }
+  ],
+  "sign_routine": {
+    "labelled_trees": 1441,
+    "maximum_vertices": 6,
+    "cases_with_repeated_join_keys": 1441,
+    "checks": [
+      "Euler cycle",
+      "pointer-join ranks",
+      "BFS orientation",
+      "exact determinant"
+    ]
+  },
+  "end_to_end_states": [
+    {
+      "graph": "K4",
+      "ordered_tensor_entries": 216,
+      "output_encoding": "sorted canonical-arc subsets; endpoint interpretation uses the explicit test graph",
+      "permutation_resource_dimension": 6,
+      "record_factorization_error": 2.021802649029216e-16,
+      "residual_garbage_norm": 3.3962683448294786e-16,
+      "final_state_error_up_to_global_phase": 3.563129245903254e-16
+    },
+    {
+      "graph": "C5",
+      "ordered_tensor_entries": 625,
+      "output_encoding": "sorted canonical-arc subsets; endpoint interpretation uses the explicit test graph",
+      "permutation_resource_dimension": 24,
+      "record_factorization_error": 2.1669956496993445e-16,
+      "residual_garbage_norm": 2.1338944354877473e-16,
+      "final_state_error_up_to_global_phase": 1.3597399555105182e-16
+    },
+    {
+      "graph": "K3_3",
+      "ordered_tensor_entries": 59049,
+      "output_encoding": "sorted canonical-arc subsets; endpoint interpretation uses the explicit test graph",
+      "permutation_resource_dimension": 120,
+      "record_factorization_error": 3.8929010096804957e-16,
+      "residual_garbage_norm": 8.379385404908114e-16,
+      "final_state_error_up_to_global_phase": 1.001124616665334e-15
+    }
+  ],
+  "approximation_and_leakage": {
+    "bounded_polynomial_dilation": [
+      {
+        "degree": 3,
+        "good_block_error": 0.11611652351681567,
+        "single_dilation_state_error": 0.48190564121374563,
+        "many_particle_dilation_error": 0.8827779307390954
+      },
+      {
+        "degree": 9,
+        "good_block_error": 0.01011955973543388,
+        "single_dilation_state_error": 0.14226425928836717,
+        "many_particle_dilation_error": 0.2823754263857885
+      },
+      {
+        "degree": 25,
+        "good_block_error": 2.588247879808936e-05,
+        "single_dilation_state_error": 0.007194786834658739,
+        "many_particle_dilation_error": 0.014389294342913672
+      },
+      {
+        "degree": 65,
+        "good_block_error": 1.5880741166540702e-11,
+        "single_dilation_state_error": 5.635732634989119e-06,
+        "many_particle_dilation_error": 1.1271317521179667e-05
+      }
+    ],
+    "generic_unitary_leakage": [
+      {
+        "one_particle_rotation_angle": 0.0001,
+        "non_tree_probability": 1.4202028155201915e-09,
+        "state_error_before_cleanup": 0.0001236650360675604,
+        "state_error_after_cleanup": 0.0001236650360675604
+      },
+      {
+        "one_particle_rotation_angle": 0.01,
+        "non_tree_probability": 1.422458377085408e-05,
+        "state_error_before_cleanup": 0.012366374154993563,
+        "state_error_after_cleanup": 0.012366374154993563
+      }
+    ]
+  },
+  "promise_boundaries": {
+    "irregular_graph": "four-vertex star",
+    "uniform_null_residual": 0.2588190451025207,
+    "disconnected_regular_rank": 4,
+    "limits": "Regularity and connectivity are actual input promises."
+  },
+  "hidden_bit_lower_gadgets": [
+    {
+      "base": "K4",
+      "base_vertices": 4,
+      "output_vertices": 40,
+      "bits": 6,
+      "tested_patterns": 3,
+      "base_normalized_gap": 1.3333333333333335,
+      "normalized_gap": 0.030369639952926398,
+      "written_conservative_gap_bound": 0.002044989775051125,
+      "gap_spread_across_bits": 4.128641872824801e-16,
+      "forced_bridge_checks": 18
+    },
+    {
+      "base": "cube",
+      "base_vertices": 8,
+      "output_vertices": 80,
+      "bits": 12,
+      "tested_patterns": 3,
+      "base_normalized_gap": 0.6666666666666659,
+      "normalized_gap": 0.02139751806549306,
+      "written_conservative_gap_bound": 0.001831501831501831,
+      "gap_spread_across_bits": 1.863093013199091e-15,
+      "forced_bridge_checks": 36
+    }
+  ],
+  "not_verified": [
+    "optimal-degree QSVT synthesis",
+    "elementary gate counts or device execution",
+    "efficient clean endpoint conversion for arbitrary port orders (the endpoint theorem requires sorted access)",
+    "arbitrary-size gap theorem or quantum query lower bound",
+    "full reversible bit-level sorting/list-ranking circuit",
+    "hosted mathematical rendering or release readiness"
+  ]
+}
