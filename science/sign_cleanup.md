@@ -13,7 +13,7 @@ The circuit uses fixed wires, sorting networks and ordinary reversible arithmeti
 
 ## Input, orientation and the exact phase
 
-Vertices are labelled $`0,\ldots,n-1`$, and the root is vertex $`0`$. Assume $`n\geq2`$; the one-vertex empty tree needs no sign correction. The input is a list of $`n-1`$ edges in the **actual final output order**. Each edge has a fixed orientation and a row of the incidence matrix $`B`$, with $`+1`$ at the tail and $`-1`$ at the head. For the usual endpoint label $`e=(u,v)`$, $`u<v`$, the orientation is $`u\to v`$. Write $`\bar B_T`$ for the incidence submatrix on these ordered tree edges with the root column deleted.
+Vertices are labelled $`0,\ldots,n-1`$, and the root is vertex $`0`$. Assume $`n\geq2`$; the one-vertex empty tree needs no sign correction. The input is a list of $`n-1`$ edges in the **actual final output order**. Each edge has a fixed orientation and a row of the incidence matrix $`B`$, with $`+1`$ at the tail and $`-1`$ at the head. For the usual endpoint label $`e=(u,v)`$, $`u\lt v`$, the orientation is $`u\to v`$. Write $`\bar B_T`$ for the incidence submatrix on these ordered tree edges with the root column deleted.
 
 For an edge $`e`$, let $`c(e)`$ be its child endpoint when the tree is rooted at $`0`$, and put
 
@@ -26,7 +26,7 @@ The children, in input-edge order, are a permutation of $`1,\ldots,n-1`$. Let $`
 ```math
 \boxed{\det\bar B_T
 =\mathrm{sgn}(\sigma)\prod_{e\in T}s_e.}
-\tag{1}
+\qquad\text{(1)}
 ```
 
 To prove (1), multiply row $`e`$ by $`s_e`$, then reorder the rows by their child labels. The resulting matrix is $`I-K`$, where $`K_{v,w}=1`$ if $`w\neq0`$ is the parent of $`v`$. Every parent chain reaches the root, so $`K`$ is nilpotent and $`\det(I-K)=1`$. Row scaling and row permutation give (1). Thus the desired phase is the parity of the child-label sorting permutation, XOR the number of negative $`s_e`$.
@@ -51,7 +51,7 @@ A bitonic network on $`N=O(n)`$ records of $`O(\log n)`$ bits uses $`O(N\log^2N)
 ```math
 O(n\log^3 n)\text{ gates},\qquad
 O(n\log^2 n)\text{ retained scratch}.
-\tag{2}
+\qquad\text{(2)}
 ```
 
 Padding to the next power of two uses tagged dummy records with a sentinel key and does not change these bounds. The tags distinguish dummy records from every valid data/query record.
@@ -64,7 +64,7 @@ For an arc $`h=(u\to v)`$, define
 
 ```math
 P(h)=\mathrm{next}_v(\bar h),
-\tag{3}
+\qquad\text{(3)}
 ```
 
 where $`\bar h`$ is its reversal. This Euler-tour permutation is one cycle on all $`L`$ arcs when the input is a tree. One proof removes a leaf: reinserting its two arcs inserts the leaf visit at one corner of the smaller tree's cycle, preserving a single cycle. The single-edge tree starts the induction.
@@ -101,7 +101,7 @@ Perform $`q=\lceil\log_2 L\rceil`$ simultaneous pointer-doubling rounds,
 \mathrm{succ}_{j+1}(h)&=\mathrm{succ}_{j}(\mathrm{succ}_{j}(h)),\\
 d_{j+1}(h)&=d_j(h)+d_j(\mathrm{succ}_{j}(h)).
 \end{aligned}
-\tag{4}
+\qquad\text{(4)}
 ```
 
 Use the batched join (2), keyed by $`\mathrm{succ}_j(h)`$, to obtain the right-hand-side values. The terminal becomes the target of many pointers; the repeated-key broadcast proof is why (4) remains valid after the first round. Fresh arrays preserve simultaneous-update semantics.

@@ -12,7 +12,7 @@ Let $`G=(V,E)`$ be a connected, simple, unweighted, $`d`$-regular undirected gra
 
 This is the normalized-Laplacian gap. Bipartite graphs are allowed: no lower bound on the absolute random-walk gap is needed. The graph has $`m=nd/2`$ edges.
 
-A port is a pair $`h=(v,k)`$ with $`0\le k<d`$, with the ports at each vertex indexed in increasing neighbor order. This ordering is needed for the clean conventional endpoint output; the polar construction itself also works with arbitrary port labels if those labels are retained as the output encoding. The coherent rotation map $`R`$ takes a port to the other port of the same edge:
+A port is a pair $`h=(v,k)`$ with $`0\le k\lt d`$, with the ports at each vertex indexed in increasing neighbor order. This ordering is needed for the clean conventional endpoint output; the polar construction itself also works with arbitrary port labels if those labels are retained as the output encoding. The coherent rotation map $`R`$ takes a port to the other port of the same edge:
 
 ```math
 R(v,k)=(w,\ell),\qquad R^2=I.
@@ -24,7 +24,7 @@ An equivalent sufficient interface is coherent access to lexicographically sorte
 
 The input interface is an explicitly charged circuit or oracle; it supplies neither a stored graph table nor QRAM built by the algorithm. If the graph is available only as an unstructured classical table, coherent access to that table is an additional implementation problem and is not free under this theorem.
 
-Encode an edge by its endpoint pair $`(u,v)`$ with $`u<v`$, and a tree by its lexicographically sorted list of $`r=n-1`$ endpoint pairs. With $`\tau(G)`$ the number of spanning trees, the target is
+Encode an edge by its endpoint pair $`(u,v)`$ with $`u\lt v`$, and a tree by its lexicographically sorted list of $`r=n-1`$ endpoint pairs. With $`\tau(G)`$ the number of spanning trees, the target is
 
 ```math
 |\mathrm{UST}(G)\rangle
@@ -35,7 +35,7 @@ All amplitudes are positive in this encoding. The target is stronger than a sign
 
 ## Main theorem
 
-**Theorem.** For every graph and gap promise above, and every $`0<\epsilon<1/10`$, there is a reversible preparation circuit $`\mathcal U_{G,\epsilon}`$ such that, up to an irrelevant global phase,
+**Theorem.** For every graph and gap promise above, and every $`0\lt \epsilon\lt 1/10`$, there is a reversible preparation circuit $`\mathcal U_{G,\epsilon}`$ such that, up to an irrelevant global phase,
 
 ```math
 \left\Vert \mathcal U_{G,\epsilon}|0\rangle

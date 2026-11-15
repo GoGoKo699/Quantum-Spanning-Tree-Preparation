@@ -54,7 +54,7 @@ the two signs cancel, giving the exact identity
 
 ```math
 T\mathrm{Alt}|x\rangle|0^C\rangle
-=|x\rangle|\mathcal R\rangle. \tag{1}
+=|x\rangle|\mathcal R\rangle. \qquad\text{(1)}
 ```
 
 It holds by linearity for every superposition of distinct sorted tuples. In particular, the record on the right is independent of the set encoded by $`x`$. This is the sorting-network antisymmetrization mechanism of [Berry and collaborators](https://doi.org/10.1038/s41534-018-0071-5), with its universal work state kept explicit.
@@ -71,7 +71,7 @@ Conditioned on distinct keys, the sorted keys and comparator record factor exact
 |\mathcal F\rangle|\mathcal R\rangle,
 \qquad
 |\mathcal F\rangle
-=\binom Mr^{-1/2}\sum_{0\le a_1<\cdots<a_r<M}|a_1,\ldots,a_r\rangle.
+=\binom{M}{r}^{-1/2}\sum_{0\le a_1\lt \cdots\lt a_r\lt M}|a_1,\ldots,a_r\rangle.
 ```
 
 Every sorted set of keys has exactly one original input ordering for each permutation, all with equal positive amplitude. This proves the factorization, rather than assuming that an unobserved seed can be erased.
@@ -79,7 +79,7 @@ Every sorted set of keys has exactly one original input ordering for each permut
 The distinctness projector is implemented by checking adjacent sorted keys for equality. Reflections about the initial all-zero state and this good subspace give coherent fixed-point amplitude amplification. Since $`p\ge3/4`$, a unitary $`K_\eta`$ using $`O(\log(1/\eta))`$ calls to the key-preparation circuit and its inverse satisfies
 
 ```math
-\Vert K_\eta|0\rangle-|\mathcal F\rangle|\mathcal R\rangle\Vert \le\eta. \tag{2}
+\Vert K_\eta|0\rangle-|\mathcal F\rangle|\mathcal R\rangle\Vert \le\eta. \qquad\text{(2)}
 ```
 
 Ancillas used to compute the predicate are uncomputed. Equation (2) permits a harmless global good-sector phase to be absorbed into the mathematical definition of $`K_\eta`$; its physical value cancels when the same circuit's inverse is applied below, so it need not be learned. This is a coherent fixed-point construction, not a measured retry loop; its inverse is available. The fixed-point primitive is inherited from [Yoder, Low and Chuang](https://arxiv.org/abs/1409.3305). Its only data here are the known particle count and key range, and it never queries the graph.
@@ -134,7 +134,7 @@ The matrix-tree theorem gives $`\det M_Q=n\tau(G)`$, equivalently the product of
 
 ```math
 \det((W_EQ)_T)
-=\det(\Omega)\frac{\det\overline B_T}{\sqrt{\tau(G)}}. \tag{3}
+=\det(\Omega)\frac{\det\overline B_T}{\sqrt{\tau(G)}}. \qquad\text{(3)}
 ```
 
 The phase $`\det(\Omega)`$ is independent of $`T`$ and of the graph. The only remaining relative sign is the rooted incidence determinant. The [sign circuit](sign_cleanup.md) computes that sign in soft-linear ordinary gates, applies its phase, and uncomputes its workspace. Equation (3) then gives the positive target state, up to the fixed global phase.

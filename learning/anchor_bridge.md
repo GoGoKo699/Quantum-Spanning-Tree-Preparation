@@ -91,7 +91,7 @@ This is an inherited algorithmic primitive. The graph-specific work is construct
 
 There are $`n-1=3`$ independent vertex directions orthogonal to $`s`$. Choose an orthonormal basis of that subspace and place one particle in each basis direction. The general compiler constructs the basis with a graph-independent Householder reflection, a reflection mapping one known basis vector to $`s`$ while preserving the valid vertex space. It does not compute the graph's eigenvectors.
 
-The particles are encoded in three separate label registers. Antisymmetrization gives a minus sign whenever two particle registers are exchanged. For three distinct labels $`x_1<x_2<x_3`$, the normalized antisymmetric state contains all six orderings with their permutation signs and a common magnitude $`1/\sqrt6`$. This is the first-quantized representation of a Slater determinant.
+The particles are encoded in three separate label registers. Antisymmetrization gives a minus sign whenever two particle registers are exchanged. For three distinct labels $`x_1\lt x_2\lt x_3`$, the normalized antisymmetric state contains all six orderings with their permutation signs and a common magnitude $`1/\sqrt6`$. This is the first-quantized representation of a Slater determinant.
 
 Applying the same one-particle isometry $`W`$ to all three registers transports their occupied subspace into the edge space. Antisymmetry makes the amplitude of a sorted edge subset a determinant of its three occupied edge orbitals. This determinant rule is established fermionic linear algebra; it is the connection used by the compiler.
 

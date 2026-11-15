@@ -17,7 +17,7 @@ The same conclusion applies when the preparation guarantee is a Euclidean error 
 
 ## 1. A constant-gap graph carrying linearly many hidden bits
 
-Fix a publicly known simple cubic expander $`X=(V_X,E_X)`$ with $`n_0`$ vertices and $`m_0=3n_0/2`$ edges. Write its normalized-Laplacian gap as $`\gamma_X\geq\gamma_0`$, where $`0<\gamma_0\leq1`$ is an absolute constant independent of $`n_0`$.
+Fix a publicly known simple cubic expander $`X=(V_X,E_X)`$ with $`n_0`$ vertices and $`m_0=3n_0/2`$ edges. Write its normalized-Laplacian gap as $`\gamma_X\geq\gamma_0`$, where $`0\lt \gamma_0\leq1`$ is an absolute constant independent of $`n_0`$.
 
 Such graphs exist for arbitrarily large even $`n_0`$. For example, Friedman's theorem, in the uniform simple-graph formulation of Bordenave [1, Theorem 1], gives cubic graphs with adjacency eigenvalue
 
@@ -182,7 +182,7 @@ For $`T\leq N/3`$, the binomial entropy bound gives
 
 ```math
 D_T\leq2^{N H_2(1/3)},
-\qquad H_2(1/3)<1,
+\qquad H_2(1/3)\lt 1,
 ```
 
 so the success probability tends to zero exponentially. An algorithm succeeding with probability at least $`2/3`$ on every string must consequently use $`T=\Omega(N)`$ bit queries. Classical randomness is covered by the purification, and a deterministic worst-case query budget permits inactive controlled-query slots after an early stopping branch.

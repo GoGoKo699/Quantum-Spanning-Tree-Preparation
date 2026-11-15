@@ -48,7 +48,7 @@ O\!\left(n\gamma^{-1/2}\log\frac{n}{\epsilon}
 =O\!\left(n\gamma^{-1/2}\log\frac{n}{\epsilon}\right),
 ```
 
-because $`d<n`$, $`\gamma\le2`$, and $`\epsilon<1/10`$. Under sorted-list access, constructing every rotation call adds an $`O(\log(d+1))`$ factor. With an explicitly compiled rotation circuit, its entire cost $`C_R`$ is multiplied by the number of calls. The resulting quantum gate count is
+because $`d\lt n`$, $`\gamma\le2`$, and $`\epsilon\lt 1/10`$. Under sorted-list access, constructing every rotation call adds an $`O(\log(d+1))`$ factor. With an explicitly compiled rotation circuit, its entire cost $`C_R`$ is multiplied by the number of calls. The resulting quantum gate count is
 
 ```math
 \widetilde O\!\left(n\gamma^{-1/2}(C_R+1)\right).
