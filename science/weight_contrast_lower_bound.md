@@ -6,7 +6,7 @@ In a dense graph, a spanning tree uses only a small fraction of the available ed
 
 Fix integers $`8\le q\le N`$. There is a family with $`n=2N`$ vertices and $`\Theta(n^2)`$ edges, with public topology and edge weights in $`\{1,q\}`$. The supplied weight-contrast bound is $`\kappa=q`$. Both the weighted and unweighted normalized Laplacian gaps are at least $`1/14`$ throughout the family.
 
-For $`0<\epsilon\le1/10`$, a quantum algorithm producing a tree register within trace distance $`\epsilon`$ of the positive endpoint-list q-sample needs $`\Omega(N\sqrt q)`$ weight queries in the worst case. A classical randomized algorithm drawing one endpoint-list sample within total variation distance $`\epsilon`$ of the target law needs $`\Omega(Nq)`$ expected weight queries, already on the all-unit instance. These claims use the sorted local interface of the [weighted construction](weighted_preparation.md). Giving the topology, edge locations and unweighted degrees for free leaves both conclusions valid.
+For $`0\lt\epsilon\le1/10`$, a quantum algorithm producing a tree register within trace distance $`\epsilon`$ of the positive endpoint-list q-sample needs $`\Omega(N\sqrt q)`$ weight queries in the worst case. A classical randomized algorithm drawing one endpoint-list sample within total variation distance $`\epsilon`$ of the target law needs $`\Omega(Nq)`$ expected weight queries, already on the all-unit instance. These claims use the sorted local interface of the [weighted construction](weighted_preparation.md). Giving the topology, edge locations and unweighted degrees for free leaves both conclusions valid.
 
 At fixed gap, the quantum bound matches the weighted preparation theorem up to logarithms. Reading all $`Nq`$ unknown weights suffices for a classical sample in the query model. The two bounds give a quadratic query separation in weight contrast on this family, up to the logarithms in the quantum upper bound. Ordinary circuit costs and classical computation remain separate resources.
 
@@ -19,7 +19,7 @@ Write $`x_i'`$ for the value of a real test function on row $`i`$ and $`y_j`$ fo
 ```math
 E_{\mathrm{cross}}=\sum_{i=1}^N\sum_{j\in A}w_{ij}(x_i'-y_j)^2,
 \qquad
-E_{\mathrm{core}}=\sum_{1\le j<k\le N}(y_j-y_k)^2
+E_{\mathrm{core}}=\sum_{1\le j\lt k\le N}(y_j-y_k)^2
 =N\sum_{j=1}^N(y_j-h)^2.
 ```
 
@@ -41,7 +41,7 @@ V_{\mathrm{row}}=\sum_{i=1}^N d_i(x_i'-h)^2
 The contribution to the core's degree-weighted variance from cross edges is at most $`2E_{\mathrm{cross}}+2V_{\mathrm{row}}`$, by applying $`(y_j-h)^2\le2(y_j-x_i')^2+2(x_i'-h)^2`$ on each cross edge. The clique degrees contribute at most $`E_{\mathrm{core}}`$. For all vertices $`v`$, with weighted degrees $`d_v`$ and test function $`f_v`$, this yields
 
 ```math
-\min_{c\in\mathbb R}\sum_v d_v(f_v-c)^2
+\min_{c\in\mathbb{R}}\sum_v d_v(f_v-c)^2
 \le \sum_v d_v(f_v-h)^2
 \le 14E_{\mathrm{cross}}+13E_{\mathrm{core}}.
 ```
@@ -68,7 +68,7 @@ On one row, let $`S`$ be the adjacency matrix of the star on labels $`0,1,\ldots
 
 Its nonzero entries compare exactly the adjacent pairs from the edge test. The star has operator norm $`\sqrt q`$ and a nonnegative unit eigenvector for eigenvalue $`\sqrt q`$. Tensoring that vector gives a nonnegative unit vector $`\delta`$ with eigenvalue $`N\sqrt q`$ for $`\Gamma`$. The triangle inequality shows this is the operator norm.
 
-For each query address $`z`$, let $`\Delta_z(x,x')=1`$ when the two oracle replies differ and $`0`$ otherwise. A mutable address identifies one cross edge of row $`i`$ and site $`a`$. In $`\Gamma\circ\Delta_z`$, all summands except the one at $`i`$ vanish. In that summand only the star link $`0\leftrightarrow a`$ remains. Hence $`\|\Gamma\circ\Delta_z\|=1`$. Two port addresses for the same edge induce the same mask. Degree queries, invalid addresses and public clique edges have zero masks. This argument covers either weight-only XOR queries or combined sorted-neighbor and weight replies, since the extra reply bits are known and independent of $`x`$.
+For each query address $`z`$, let $`\Delta_z(x,x')=1`$ when the two oracle replies differ and $`0`$ otherwise. A mutable address identifies one cross edge of row $`i`$ and site $`a`$. In $`\Gamma\circ\Delta_z`$, all summands except the one at $`i`$ vanish. In that summand only the star link $`0\leftrightarrow a`$ remains. Hence $`\Vert\Gamma\circ\Delta_z\Vert=1`$. Two port addresses for the same edge induce the same mask. Degree queries, invalid addresses and public clique edges have zero masks. This argument covers either weight-only XOR queries or combined sorted-neighbor and weight replies, since the extra reply bits are known and independent of $`x`$.
 
 Defer measurements and purify the algorithm's randomness. At each step let $`|\psi_x\rangle`$ be the full state when the input is $`x`$, set $`|\Psi\rangle=\sum_x\delta_x|x\rangle|\psi_x\rangle`$, and use the progress quantity
 

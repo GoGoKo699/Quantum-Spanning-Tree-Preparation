@@ -24,7 +24,7 @@ The background phase introduces graph oracles, spectral gaps and singular-value 
 
 ## The complete claim in one place
 
-Start with a connected simple graph on $`n`$ vertices, positive weights in a supplied range $`[w_{\min},w_{\max}]`$, and a known normalized-Laplacian gap lower bound $`\gamma>0`$. The graph access provides ordinary vertex degrees, plus neighbors and edge weights in sorted port order. Write $`\kappa=w_{\max}/w_{\min}`$ for the promised contrast.
+Start with a connected simple graph on $`n`$ vertices, positive weights in a supplied range $`[w_{\min},w_{\max}]`$ and a known lower bound $`\gamma>0`$ on either the weighted or unweighted normalized-Laplacian gap. The graph access provides ordinary vertex degrees, plus neighbors and edge weights in sorted port order. Write $`\kappa=w_{\max}/w_{\min}`$ for the promised contrast.
 
 The preparation uses the following number of coherent queries.
 
@@ -32,7 +32,7 @@ The preparation uses the following number of coherent queries.
 \widetilde O\!\left(n\sqrt{\frac{\kappa}{\gamma}}\right).
 ```
 
-The bound includes the one-time degree-state preparation, the polar transport on $`n-1`$ registers and the endpoint conversion. The quantum gate and workspace accounting also charges the supplied oracle circuits, reversible arithmetic on their finite-bit inputs, and sorting and sign correction. The precision budget covers the tree and work registers together. The [resource proof](../science/weighted_preparation.md) spells out the logarithmic factors and charges classical phase compilation separately.
+The bound includes the one-time degree-state preparation, the polar transport on $`n-1`$ registers and the endpoint conversion. The quantum gate and workspace accounting also charges the supplied oracle circuits, reversible arithmetic on their finite-bit inputs, and sorting and sign correction. The precision budget covers the tree and work registers together. The [resource proof](../science/weighted_preparation.md#joint-error-and-resource-accounting) spells out the logarithmic factors and charges classical phase compilation separately.
 
 For dense examples with fixed normalized gaps and growing contrast in the stated range, one quantum tree sample needs $`\Omega(n\sqrt{\kappa})`$ queries and one classical tree sample needs $`\Omega(n\kappa)`$ expected queries in the same access model. The separation concerns queries on that family. See the [weight-query lower bounds](../science/weight_contrast_lower_bound.md) and the [regular unweighted baseline](../science/model.md).
 

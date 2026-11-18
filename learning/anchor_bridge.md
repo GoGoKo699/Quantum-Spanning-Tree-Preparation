@@ -89,13 +89,13 @@ This is an inherited algorithmic primitive. The graph-specific work is construct
 
 ### 5. Fill the entire uniform-complement subspace
 
-There are $`n-1=3`$ independent vertex directions orthogonal to $`s`$. Choose an orthonormal basis of that subspace and place one particle in each basis direction. The general compiler constructs the basis with a graph-independent Householder reflection, a reflection mapping one known basis vector to $`s`$ while preserving the valid vertex space. It does not compute the graph's eigenvectors.
+There are $`n-1=3`$ independent vertex directions orthogonal to $`s`$. Choose an orthonormal basis of that subspace and place one particle in each basis direction. For the regular baseline, a graph-independent Householder reflection maps one known basis vector to $`s`$ while preserving the valid vertex space. The other columns give the occupied basis.
 
 The particles are encoded in three separate label registers. Antisymmetrization gives a minus sign whenever two particle registers are exchanged. For three distinct labels $`x_1\lt x_2\lt x_3`$, the normalized antisymmetric state contains all six orderings with their permutation signs and a common magnitude $`1/\sqrt6`$. This is the first-quantized representation of a Slater determinant.
 
 Applying the same one-particle isometry $`W`$ to all three registers transports their occupied subspace into the edge space. Antisymmetry makes the amplitude of a sorted edge subset a determinant of its three occupied edge orbitals. This determinant rule is established fermionic linear algebra; it is the connection used by the compiler.
 
-There are four three-edge subsets in the cycle, and every one is a tree. In a general graph, a non-tree subset of $`n-1`$ edges has rank-deficient incidence rows and its determinant amplitude vanishes. The matrix-tree identity normalizes the remaining tree amplitudes to equal magnitude.
+There are four three-edge subsets in the cycle, and every one is a tree. In a general graph, a non-tree subset of $`n-1`$ edges has rank-deficient incidence rows and its determinant amplitude vanishes. For unit edge weights the matrix-tree identity gives every surviving tree amplitude the same magnitude.
 
 ### 6. Remove the particle-order records cleanly
 
@@ -169,7 +169,7 @@ The four-cycle illustrates the clean positive output. The [regular, unweighted e
 
 Add the diagonal $`02`$ with weight two and keep each cycle edge at weight one. The four trees that omit it each have edge-weight product one. Each tree that includes it chooses one link from $`\{01,12\}`$ and one from $`\{03,23\}`$, giving four trees with product two. The sum of tree weights is $`4+4\cdot2=12`$. After sign correction each tree omitting $`02`$ has amplitude $`1/\sqrt{12}`$, and each tree containing it has amplitude $`\sqrt{2}/\sqrt{12}`$. The squared amplitudes give probabilities $`1/12`$ and $`1/6`$ respectively.
 
-**The local map.** Vertex degrees are now $`(3,2,3,2)`$. Write $`D=\operatorname{diag}(3,2,3,2)`$ and let $`\Lambda`$ be the diagonal matrix of edge weights. The circuit queries the ordinary vertex degree and creates a uniform superposition over that many ports. It forms the antisymmetric port difference and uses a reversible flag rotation with success amplitude $`\sqrt{w_e/w_{\max}}`$ for edge $`e`$. Both ends of an edge receive the same factor, so folding still gives one fixed orientation state. The folded block is
+**The local map.** Vertex degrees are now $`(3,2,3,2)`$. Write $`D=\mathrm{diag}(3,2,3,2)`$ and let $`\Lambda`$ be the diagonal matrix of edge weights. The circuit queries the ordinary vertex degree and creates a uniform superposition over that many ports. It forms the antisymmetric port difference and uses a reversible flag rotation with success amplitude $`\sqrt{w_e/w_{\max}}`$ for edge $`e`$. Both ends of an edge receive the same factor, so folding still gives one fixed orientation state. The folded block is
 
 ```math
 A=\frac{\Lambda^{1/2}B D^{-1/2}}{\sqrt{2w_{\max}}}.
@@ -215,7 +215,7 @@ Read the selected parts when the corresponding object appears in the example. Re
 | §2.1, subadditivity of errors | Bound a circuit's error by its component errors | Joint output/work guarantee across all particles |
 | Chapter 18, discrete-time walks | Graph states, local shifts and the connection to Markov spectra | The cycle identity $`A^\dagger A=(I-P)/2`$ and its degree-normalized weighted continuation |
 | §19.3, amplitude amplification | Increase a selected branch coherently | Prepare the degree-rooted vertex state and the reusable permutation state |
-| §§21.1–21.2, query algorithms and lower bounds | Compare information revealed by local queries | The constant-gap weight contrast construction |
+| §§21.1–21.2 and Chapter 23, query complexity and the adversary method | Compare information revealed by local queries | The constant-gap weight contrast construction |
 | §28.3, linear combinations of unitaries | Implement sums through coherent control | Construct the projected difference $`(I-R)V/2`$ |
 | §§29.1–29.3, block encoding, QSP and qubitization | Encode an operator and transform its spectrum polynomially | Rectangular singular-vector polar transport with gap-dependent cost |
 

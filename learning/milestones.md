@@ -149,7 +149,7 @@ Prerequisites: M07
 
 **Central question:** Which spectral gap controls this algorithm, and which gap is unnecessary?
 
-**Understanding target:** Interpret the known bound on the second normalized-Laplacian eigenvalue as a separation between the null mode and the useful modes. Locate the four-cycle at degree two and normalized gap one. Explain why its random-walk eigenvalue minus one is compatible with this promise and how a supplied weight contrast enters the weighted singular bound.
+**Understanding target:** Interpret the known bound on the second normalized-Laplacian eigenvalue as a separation between the null mode and the useful modes. Locate the four-cycle at degree two and normalized gap one. Explain why its random-walk eigenvalue minus one is compatible with this promise. Identify the supplied weight contrast $`\kappa=w_{\max}/w_{\min}`$ as the other parameter in the weighted singular bound.
 
 **Story role:** Give the structural promise its exact meaning before using it in a cost bound.
 
@@ -325,7 +325,7 @@ Prerequisites: M05, M15, M16
 
 Phase: narrative/innovation
 
-Prerequisites: M07, M10, M14
+Prerequisites: M07, M10, M12, M14, M15
 
 **Central question:** How can one degree-rooted state specify all occupied input directions?
 
@@ -335,7 +335,7 @@ Prerequisites: M07, M10, M14
 
 **Conceptual connection:** The Hodge dual converts a one-particle null state into the alternating product of all complementary directions.
 
-**Source pointers:** Childs §§1.1–1.2, §1.4 and §19.3 · [degree-rooted input](../science/weighted_preparation.md) · [weighted diagonal example](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state).
+**Source pointers:** Childs §§1.1–1.2, §1.4 and §19.3 · [degree-rooted input](../science/weighted_preparation.md#prepare-the-missing-vertex-once) · [weighted diagonal example](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state).
 
 <a id="m19"></a>
 
@@ -533,7 +533,7 @@ Prerequisites: M04, M26, M28
 
 **Conceptual connection:** A common sampling distinction supplies two kinds of progress bound, one through quantum state overlap and the other through identical classical transcripts.
 
-**Source pointers:** Childs §§21.1–21.2 for context · [quantum lower bound](../science/weight_contrast_lower_bound.md#quantum-queries) · [classical lower bound](../science/weight_contrast_lower_bound.md#classical-queries).
+**Source pointers:** Childs §§21.1–21.2 and Chapter 23 · [quantum lower bound](../science/weight_contrast_lower_bound.md#quantum-queries) · [classical lower bound](../science/weight_contrast_lower_bound.md#classical-queries).
 
 <a id="m30"></a>
 

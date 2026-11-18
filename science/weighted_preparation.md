@@ -4,11 +4,11 @@ On a regular graph, the incidence map kills the uniform vertex state. On an irre
 
 ## Access model and theorem
 
-Let $`G=(V,E)`$ be a connected simple graph on $`n\ge2`$ labelled vertices. Each edge has an exactly specified positive weight $`w_e`$ in a fixed-point representation with $`b`$ bits. Supply bounds $`0<w_{\min}\le w_e\le w_{\max}`$, with $`\kappa=w_{\max}/w_{\min}`$. The bounds use the same representation or are given at sufficient precision as outward bounds. The coherent graph interface returns the number $`d_v`$ of neighbours of a vertex, or a sorted port's neighbour and weight. The two ends of an edge give the same weight. As in the [regular model](model.md), access extends reversibly to padded labels.
+Let $`G=(V,E)`$ be a connected simple graph on $`n\ge2`$ labelled vertices. Each edge has an exactly specified positive weight $`w_e`$ in a fixed-point representation with $`b`$ bits. Supply bounds $`0\lt w_{\min}\le w_e\le w_{\max}`$, with $`\kappa=w_{\max}/w_{\min}`$. The bounds use the same representation or are given at sufficient precision as outward bounds. The coherent graph interface returns the number $`d_v`$ of neighbours of a vertex, or a sorted port's neighbour and weight. The two ends of an edge give the same weight. As in the [regular model](model.md), access extends reversibly to padded labels.
 
-Put $`D=\operatorname{diag}(d_v)`$, let $`B`$ be the oriented edge-by-vertex incidence, and put $`W=\operatorname{diag}(w_e)`$. Write $`L_0=B^\dagger B`$, $`L_w=B^\dagger W B`$ and $`D_w=\operatorname{diag}(\sum_{e\ni v}w_e)`$. Supply a positive lower bound $`\gamma`$ on the second eigenvalue of either $`D^{-1/2}L_0D^{-1/2}`$ or $`D_w^{-1/2}L_wD_w^{-1/2}`$. If both bounds are supplied, use the larger one. These gaps do not require a bound on the absolute random-walk spectrum.
+Put $`D=\mathrm{diag}(d_v)`$, let $`B`$ be the oriented edge-by-vertex incidence, and put $`W=\mathrm{diag}(w_e)`$. Write $`L_0=B^\dagger B`$, $`L_w=B^\dagger W B`$ and $`D_w=\mathrm{diag}(\sum_{e\ni v}w_e)`$. Supply a positive lower bound $`\gamma`$ on the second eigenvalue of either $`D^{-1/2}L_0D^{-1/2}`$ or $`D_w^{-1/2}L_wD_w^{-1/2}`$. If both bounds are supplied, use the larger one. These gaps do not require a bound on the absolute random-walk spectrum.
 
-**Theorem.** For $`0<\epsilon<1/10`$, the preparation unitary outputs, up to global phase and joint norm error $`\epsilon`$, the state
+**Theorem.** For $`0\lt\epsilon\lt1/10`$, the preparation unitary outputs, up to global phase and joint norm error $`\epsilon`$, the state
 
 ```math
 |\pi_w\rangle |0\rangle_{\rm work}
@@ -85,10 +85,10 @@ For gates, let $`C_{\rm loc}`$ and $`S_{\rm loc}`$ bound the costs of the suppli
 
 ```math
 \widetilde O\!\left(
-n\sqrt{\kappa/\gamma}\,[C_{\rm loc}+\operatorname{poly}(b,p,\log n)]
+n\sqrt{\kappa/\gamma}\,[C_{\rm loc}+\mathrm{poly}(b,p,\log n)]
 \right).
 ```
 
-The non-oracle work is $`\widetilde O(n) + \operatorname{poly}(b,p,\log n)`$ bits or qubits, plus $`O(S_{\rm loc})`$ reused for the local oracle. Optional weight labels occupy an additional $`O(nb)`$ output bits. The classical phase-compilation cost for the polar and fixed-point sequences is kept explicit, as in the [regular resource account](resources.md). This theorem charges the given sorted access and its implementation. An unsorted table or a graph-dependent data structure for providing that access has its own cost.
+The non-oracle work is $`\widetilde O(n) + \mathrm{poly}(b,p,\log n)`$ bits or qubits, plus $`O(S_{\rm loc})`$ reused for the local oracle. Optional weight labels occupy an additional $`O(nb)`$ output bits. The classical phase-compilation cost for the polar and fixed-point sequences is kept explicit, as in the [regular resource account](resources.md). This theorem charges the given sorted access and its implementation. An unsorted table or a graph-dependent data structure for providing that access has its own cost.
 
 At constant gap and bounded contrast the quantum circuit is near-linear for efficiently supplied local access and logarithmic weight precision. The [dense lower bounds](weight_contrast_lower_bound.md) prove the cost in weight contrast necessary on a fixed-gap family. They leave the optimal dependence on a shrinking gap open.
