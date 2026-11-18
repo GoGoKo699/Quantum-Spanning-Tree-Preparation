@@ -1,19 +1,25 @@
 # Quantum Spanning Tree Preparation
 
-Prepare a clean positive uniform superposition of endpoint-encoded spanning trees of an unweighted connected regular graph under sorted neighbour/rotation access. Read the science/README.md overview first. The principal bound is soft-O(n/sqrt(gamma)) coherent graph-rotation queries, with graph implementation, oracle workspace and classical signal-processing compilation explicitly paid. Near-linear vertex scaling is matched at constant gap; no classical sampling speedup or optimal gap law is asserted. Arbitrarily ordered ports do not supply a free inverse-index locator for clean endpoint conversion.
+Prepare a clean positive weighted spanning-tree quantum state of a connected simple graph. Each tree's amplitude is proportional to the square root of the product of its edge weights. The output records lexicographically sorted endpoint pairs and admits a clean inverse. Start with science/README.md.
 
-Routes:
-- One selected Childs anchor (17 April 2025), concrete four-cycle learning route: learning/README.md.
-- Source sections, notation translation and missing project-specific steps: learning/anchor_bridge.md.
-- Exactly 30 shared milestones (14 background, 16 narrative), with dependencies: learning/milestones.md.
-- Exact promises, output and error: science/model.md.
-- Incidence projected unitary, gap and polar QSVT: science/polar_transport.md.
-- Determinant amplitudes, universal sorting resource and complete clean preparation: science/coherent_preparation.md.
+The weighted theorem uses a positive supplied weight range with contrast cap kappa, sorted weighted adjacency-list access and a known lower bound gamma on either the weighted or unweighted normalized-Laplacian gap. Its query cost is soft-O(n sqrt(kappa/gamma)). Oracle implementation, precision and graph-independent phase compilation are explicit resources. The regular unweighted specialization uses soft-O(n/sqrt(gamma)) calls to a supplied sorted rotation map.
+
+A dense fixed-gap family with integer contrast 8 <= kappa <= n/2 requires Omega(n sqrt(kappa)) quantum queries for one coherent sample and Omega(n kappa) expected classical queries for one classical sample at fixed small error. Measuring the quantum state gives the corresponding sampling query upper bound. The comparison holds within the sorted local-oracle model. Optimal gap dependence and hardware performance are open.
+
+## Reading routes
+
+- Complete weighted assumptions, degree-rooted input state, weighted incidence polar map and resource bound: science/weighted_preparation.md.
+- Dense fixed-gap weight-query converse and classical sampling separation: science/weight_contrast_lower_bound.md.
+- Regular unweighted promises, output and error: science/model.md.
+- Regular incidence projected unitary, gap and polar QSVT: science/polar_transport.md.
+- Determinant amplitudes, universal sorting resource and clean preparation: science/coherent_preparation.md.
 - Rooting, Euler tours, sorting joins, sign phase and uncomputation: science/sign_cleanup.md.
-- Queries, elementary gates, oracle implementation, compilation and workspace: science/resources.md.
-- Constant-gap endpoint-output query converse: science/lower_bound.md.
-- Four-cycle calculation, reflections and limitations: science/interpretation.md.
-- Inherited ingredients and current direct comparisons: references/related_work.md and references/references.bib.
-- Reproducible finite checks and their boundaries: verification/README.md.
+- Regular-case queries, gates, compilation and workspace: science/resources.md.
+- Unweighted cubic endpoint-output query converse: science/lower_bound.md.
+- Four-cycle calculation, reflections and interpretation: science/interpretation.md.
+- One selected Childs anchor (17 April 2025) and worked learning route: learning/README.md and learning/anchor_bridge.md.
+- Exactly 30 shared milestones (14 background and 16 narrative): learning/milestones.md.
+- Inherited ingredients and primary comparisons: references/related_work.md and references/references.bib.
+- Reproducible finite checks and their scope: verification/README.md.
 
-The scientific pages are authoritative; finite checks support conventions and examples rather than certify the all-size proofs. Preserve the distinction between canonical port labels and clean endpoint output, between supplied rotation access and its implementation, and between coherent preparation and ordinary classical sampling.
+The scientific pages give the proof and scope. Keep separate the sorted endpoint and arbitrary-port output encodings, query and implementation resources, and coherent preparation and measurement-only sampling.

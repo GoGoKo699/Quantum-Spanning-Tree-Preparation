@@ -1,5 +1,7 @@
 # Model and main capability
 
+The regular, unweighted theorem below is the baseline. The [weighted theorem](weighted_preparation.md) states the extension to irregular graphs and its separate resource promises.
+
 The task is to prepare a coherent uniform superposition of all spanning trees of an implicitly supplied graph. A classical random tree is obtained by measuring this state, but preparing the pure superposition also supplies a reversible setup circuit. The result below concerns that stronger output.
 
 ## Graph, access and output

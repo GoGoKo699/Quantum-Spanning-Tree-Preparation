@@ -1,50 +1,31 @@
-# From graph incidence to coherent trees
+# From weighted incidence to coherent trees
 
-A spanning tree is a connected, cycle-free set of $`n-1`$ edges. A uniform classical sample returns one such set. Here the output is the quantum state with the same positive amplitude on every spanning tree, encoded as a sorted edge list, and with every work register returned to zero. A clean preparation unitary also gives its inverse and a reflection about the output state. Conventional endpoint output uses the sorted-access promise in the [model](model.md); an arbitrary port ordering alone does not supply a cheap inverse neighbour-index lookup.
+A spanning tree is a connected, cycle-free set of $`n-1`$ edges. Weight each tree by the product of its edge weights. The output state assigns the square root of the normalized weight as a positive amplitude to the tree's sorted endpoint list. The preparation returns its work registers to zero within the joint-state error guarantee and gives an inverse for coherent use. The [weighted theorem](weighted_preparation.md) states the exact interface, output and resources.
 
-The [model and theorem](model.md) state the exact promises and costs. This page explains how the proofs fit together.
+## Prepare the occupied vertex space
 
-## The one-particle ingredient
-
-Let $`P`$ be the simple random-walk matrix of a connected regular graph. A uniform port isometry $`V`$ and the graph-rotation involution $`R`$ implement
+The graph enters through a coherent sorted weighted neighbor oracle and its unweighted degree oracle. First load a uniform port state at each vertex using its degree, then flag that port with amplitude proportional to the square root of its edge weight. Project onto the antisymmetric sector of port reversal and fold the two ports for each edge. With $`B`$ the oriented incidence matrix, $`D`$ the unweighted degree diagonal and $`W`$ the edge-weight diagonal, the folded block is
 
 ```math
-A=\frac{I-R}{2}V,
-\qquad A^\dagger A=\frac{I-P}{2}.
+A=\frac{W^{1/2}B D^{-1/2}}{\sqrt{2w_{\max}}}.
 ```
 
-The uniform vertex vector is its only null vector. The remaining singular values are at least $`\sqrt{\gamma/2}`$ when the normalized-Laplacian gap is at least $`\gamma`$. Quantum singular-value transformation turns $`A`$ into its polar isometry on that known complement. [Polar transport](polar_transport.md) gives the actual projected-unitary encoding, orientation folding and leakage bound. No degree-dependent normalization penalty is inserted.
+Connectivity makes $`D^{1/2}\mathbf 1`$, after normalization, the sole missing vertex direction. A single degree-rooted state specifies it. Mapping that state to the signed list of all vertices except the selected one gives the antisymmetric state of the occupied complement. The supplied lower bound $`\gamma`$ on either normalized-Laplacian gap yields a nonzero singular-value bound of $`\sqrt{\gamma/(2\kappa)}`$. Polar singular-value transformation then transports the occupied modes isometrically to the weighted incidence image. [Block construction and occupied state](weighted_preparation.md).
 
-## The many-particle determinant
+In the [regular unweighted specialization](model.md), the vertex state is uniform and the coin has the same size at every vertex. The projected-unitary identity reduces to $`A^\dagger A=(I-P)/2`$ for simple random walk $`P`$. [Regular polar transport](polar_transport.md).
 
-Write $`B`$ for an oriented edge-by-vertex incidence matrix, $`L=B^\dagger B`$, and $`Q`$ for any efficiently generated orthonormal basis of the uniform vertex complement. After folding arcs into edges, the transported columns are
+## Convert determinants to positive tree amplitudes
 
-```math
-C=BQ(Q^\dagger LQ)^{-1/2},
-\qquad C^\dagger C=I_{n-1}.
-```
+Transport the antisymmetric input and sort its edge registers coherently. The amplitude of each ordered edge subset is a minor of an orthonormal basis for the incidence image. Removing a fixed root column from the incidence matrix yields another basis for the same image after edge weighting. The determinant of that basis change is common to all subsets.
 
-An antisymmetric state occupying all $`n-1`$ columns has sorted edge-subset amplitude $`\det C_S`$. For a non-tree subset of $`n-1`$ edges, the incidence rank is deficient and this determinant vanishes. For a tree, the matrix-tree theorem and the unit magnitude of a reduced incidence determinant give
+Non-trees have zero incidence determinant. Every spanning tree has a reduced unweighted incidence determinant of magnitude one. The weight factors from its selected rows therefore give the square root of the product of its edge weights. The matrix-tree identity gives the common normalization. The graph-independent permutation resource from the [clean coherent preparation](coherent_preparation.md) works on the weighted state by linearity.
 
-```math
-\det C_T=e^{i\theta}\frac{\det \overline B_T}{\sqrt{\tau(G)}},
-\qquad \det\overline B_T\in\{-1,1\},
-```
+Root the tree at the fixed vertex. Each edge has one child endpoint. The incidence sign is the parity of the permutation that orders edges by their child labels, multiplied by the signs of their child incidence entries. Euler-tour list ranking finds those children through sorting-network joins. Compute the sign, apply its phase and reverse the computation. [Reversible sign cleanup](sign_cleanup.md) and [four-cycle example](interpretation.md#four-cycle-worked-example).
 
-where $`\theta`$ is independent of the tree and $`\overline B_T`$ deletes one fixed root column. Thus the only tree-dependent phase is a sign that can be computed from the tree itself.
+## Account for accuracy and query cost
 
-[Clean coherent preparation](coherent_preparation.md) proves both the determinant identity and the complete circuit. Its graph-independent permutation resource is reused by the same fixed sorting network before and after transport. The resource is unprepared coherently, rather than discarded as a random seed.
+The polar approximation controls the full unitary output, including leakage outside the desired signal registers. The error of transporting the occupied modes adds to the errors in input preparation, fixed-angle synthesis and the other reversible steps. The [weighted resource account](weighted_preparation.md) charges sorted weighted oracle calls, full-state precision and compilation. The [regular resource account](resources.md) records the costs with a supplied rotation circuit and its conversion from sorted lists.
 
-## A sign that is cheap to compute
+The [dense weighted lower bound](weight_contrast_lower_bound.md) varies optional row-edge boosts inside a fixed topology while keeping both normalized gaps bounded below. A single boosted edge changes its inclusion probability by a constant. Independent rows give a quantum adversary bound of $`\Omega(n\sqrt{\kappa})`$. Coupling classical runs on inputs differing in one queried weight gives an expected $`\Omega(n\kappa)`$ lower bound. The quantum construction matches the first bound up to logarithms at fixed gap. The [unweighted cubic lower bound](lower_bound.md) separately forces a linear vertex term via hidden bridge labels.
 
-Root the input tree at a fixed vertex. Each edge has one child endpoint. The determinant sign is the parity of the permutation ordering edges by child label, multiplied by the signs of their child incidence entries. Euler-tour list ranking finds those child endpoints through fixed sorting-network joins. Compute the sign, apply its phase and reverse the computation.
-
-[Sign cleanup](sign_cleanup.md) supplies the all-size proof, pseudocode and soft-linear gate and workspace bounds, including total unitary behavior on malformed lists. A [four-cycle example](interpretation.md#four-cycle-worked-example) shows an actual negative branch and its correction.
-
-## Accuracy and the charged comparison
-
-The one-particle singular-value approximation is chosen tightly enough to bound the full dilation leakage, not only its successful block. Errors then add over the $`n-1`$ particles and the reversible processing. [Resources](resources.md) accounts for graph queries, ordinary gates, input-interface implementation, signal-processing phase compilation, workspace and controlled inverses.
-
-The [lower-bound family](lower_bound.md) consists of constant-gap cubic graphs with hidden labels on forced bridges. Every endpoint-encoded tree reveals all hidden bits. Oracle interrogation therefore requires $`\Omega(n)`$ queries even at constant gap and constant error. This establishes the vertex scaling, while leaving sharp gap dependence open.
-
-The [related-work account](../references/related_work.md) credits polar QSVT, fermionic antisymmetrization, determinant samplers and the matrix-tree theorem. The resulting contribution is the charged local-oracle compiler into a clean positive tree state; general-purpose qsampling and classical sampling have different resource comparisons.
+The [related-work account](../references/related_work.md) compares one-sample and amortized query costs, classical tree sampling and explicit-matrix determinant preparation.

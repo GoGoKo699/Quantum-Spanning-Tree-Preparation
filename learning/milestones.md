@@ -2,14 +2,14 @@
 
 This is the project's common understanding map. Its targets depend on the science, not on a particular reader's experience or learning history. The single educational anchor is Andrew M. Childs, *Lecture Notes on Quantum Algorithms*, **17 April 2025**; the [anchor bridge](anchor_bridge.md) records the relevant sections and translates their notation. The scientific files remain authoritative for the construction and its claims.
 
-The allocation is **14 background/preliminary milestones and 16 narrative/innovation milestones**. The background connects graph objects, quantum registers, reversible access and determinant states before assembling a precise preparation problem. The narrative then builds the circuit from its one-particle ingredient, proves its output and cleanup, and integrates its complete costs and lower bound. Both phases move from local ingredients toward a global account. This map covers the load-bearing ideas and boundaries; it does not enumerate every technical lemma.
+The map has **14 background milestones and 16 construction milestones**. The background connects graph objects, quantum registers, reversible access and determinant states. The construction builds the weighted circuit, proves its coherent output and cleanup, then accounts for its costs and query lower bounds.
 
 | Phase | IDs | Scientific progression |
 | --- | --- | --- |
 | Background/preliminaries | M01–M14 | A concrete tree state, its graph and circuit language, then the complete problem specification |
-| Narrative/innovation | M15–M30 | Normalized incidence, polar transport, coherent determinant assembly, positive signs, complete cost and lower-bound synthesis |
+| Narrative/innovation | M15–M30 | Weighted incidence, the degree-rooted occupied subspace, polar transport, positive tree amplitudes and sharp weight-query scaling |
 
-The running example is always the same four-cycle $`C_4`$: vertices $`0,1,2,3`$, sorted edges $`(01),(03),(12),(23)`$, degree two, normalized-Laplacian gap one, and root zero. It has four spanning trees, each obtained by deleting one edge. Its [worked account](../science/interpretation.md#four-cycle-worked-example) connects the abstract circuit to a complete output state. The later lower bound uses a separate graph family because a four-vertex example cannot establish asymptotic necessity.
+Begin with the [four-cycle](anchor_bridge.md#a-four-cycle-from-input-to-clean-output) on vertices $`0,1,2,3`$. Every edge has weight one, every vertex has degree two and each of the four trees has the same weight. Then [add a diagonal of weight two](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state). The same four vertices show how unequal degrees change the input and unequal edge weights change the output. The contrast lower bound uses a separate family of dense graphs.
 
 An anchor pointer supplies foundations, not an assertion that the lecture notes prove the project's local construction. Polar singular-vector transformation, coherent sorting resources, matrix-tree amplitudes and the tree-sign circuit are explicitly supplied in the linked scientific chapters, with research attribution there.
 
@@ -23,31 +23,31 @@ Prerequisites: none
 
 **Central question:** What is the output of coherent spanning-tree preparation?
 
-**Understanding target:** Explain that a spanning tree joins every graph vertex without a cycle, and identify the output as one pure state with equal positive amplitude on every sorted tree edge list. Distinguish this state from a classical record naming one randomly selected tree.
+**Understanding target:** Explain that a spanning tree joins every graph vertex without a cycle. Identify the output as one pure state with positive amplitudes whose squares are proportional to the products of their edge weights. Explain what measuring the state gives and what keeping it coherent enables.
 
 **Story role:** Establish the operational destination before introducing its machinery.
 
 **Conceptual connection:** A combinatorial collection becomes a quantum basis family; the preparation problem concerns relative amplitudes and work registers as well as measurement probabilities.
 
-**Source pointers:** Childs §1.1; [model: graph, access and output](../science/model.md#graph-access-and-output); [worked interpretation](../science/interpretation.md#four-cycle-worked-example).
+**Source pointers:** Childs §1.1 · [weighted model and output](../science/weighted_preparation.md) · [worked interpretation](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state).
 
 <a id="m02"></a>
 
-## M02 — Four trees in one fixed example
+## M02 — Four trees and one added edge
 
 Phase: background/preliminaries
 
 Prerequisites: M01
 
-**Central question:** What does the target look like on the four-cycle?
+**Central question:** What changes in the target state when the four-cycle gets a weighted diagonal?
 
-**Understanding target:** Follow why deleting any one of the four cycle edges leaves a tree, why there are exactly four outputs, and why the target amplitudes have magnitude one half. Interpret a measurement as choosing a deleted edge uniformly, while the unmeasured state retains its phase relations.
+**Understanding target:** Count the four trees of the unweighted cycle and recover their amplitudes of one half. Add diagonal $`02`$ with weight two. Count four trees of weight one and four of weight two, then use their total weight to obtain each positive amplitude.
 
 **Story role:** Supply a complete small example that will be revisited after transport, signs and cleanup.
 
-**Conceptual connection:** Normalization ties the size of a combinatorial family to its state amplitudes; it does not determine their signs.
+**Conceptual connection:** The sum of tree weights fixes the normalization. A tree's probability uses its weight product and its amplitude uses the square root.
 
-**Source pointers:** Childs §§1.1–1.2; [four-cycle worked example](../science/interpretation.md#four-cycle-worked-example); [main theorem](../science/model.md#main-theorem).
+**Source pointers:** Childs §§1.1–1.2 · [four-cycle worked example](anchor_bridge.md#a-four-cycle-from-input-to-clean-output) · [weighted diagonal](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state).
 
 <a id="m03"></a>
 
@@ -77,13 +77,13 @@ Prerequisites: M03
 
 **Central question:** What information does one graph-oracle call supply, and what does it cost to supply it coherently?
 
-**Understanding target:** Read a controlled reversible oracle as a transformation on superpositions of labels, with its own gate cost $`C_R`$ and clean workspace $`S_R`$. Explain why a classical adjacency table does not automatically provide that operation at polylogarithmic physical cost.
+**Understanding target:** Identify the ordinary-degree and sorted neighbor-and-weight queries, and follow how they act reversibly on a superposition of labels. Account for the circuit and work space needed to implement them when the input is supplied as a classical adjacency table.
 
 **Story role:** Ground all later asymptotic statements in a paid input interface.
 
 **Conceptual connection:** Query complexity counts calls to an operation; implementation complexity also counts the circuit that realizes each call.
 
-**Source pointers:** Childs §1.4, §1.6 and §§21.1–21.2; [model interface](../science/model.md#graph-access-and-output); [complete resources](../science/resources.md).
+**Source pointers:** Childs §1.4, §1.6 and §§21.1–21.2 · [weighted access and resources](../science/weighted_preparation.md) · [regular rotation interface](../science/model.md#graph-access-and-output).
 
 <a id="m05"></a>
 
@@ -131,13 +131,13 @@ Prerequisites: M06
 
 **Central question:** Why does the incidence map have one null direction on a connected graph?
 
-**Understanding target:** Explain $`L=B^\dagger B`$ through its sum of squared edge differences. A constant vertex vector has zero difference on every edge; connectivity makes it the only such direction. Recognize that disconnected graphs have additional null directions and therefore require a different occupied subspace.
+**Understanding target:** Explain $`L=B^\dagger B`$ through its sum of squared edge differences. Connectivity makes constant vertex data the only null direction. See why ordinary-degree normalization turns that direction into amplitudes proportional to $`\sqrt{d_v}`$ and why positive edge weights preserve the incidence rank.
 
 **Story role:** Identify the exact mode excluded by the preparation circuit.
 
 **Conceptual connection:** A graph's connectivity statement becomes a rank statement, and the rank determines how many one-particle modes can be occupied isometrically.
 
-**Source pointers:** Childs §§18.2–18.3; [normalized identity and kernel](../science/polar_transport.md#an-explicit-projected-unitary-encoding); [verification promise boundaries](../verification/README.md#what-the-checks-establish-on-the-tested-instances).
+**Source pointers:** Childs §§18.2–18.3 · [weighted identity and kernel](../science/weighted_preparation.md) · [regular normalization](../science/polar_transport.md#an-explicit-projected-unitary-encoding).
 
 <a id="m08"></a>
 
@@ -149,13 +149,13 @@ Prerequisites: M07
 
 **Central question:** Which spectral gap controls this algorithm, and which gap is unnecessary?
 
-**Understanding target:** Interpret the known bound on the second normalized-Laplacian eigenvalue as a separation between the constant null mode and the useful modes. Explain why a bipartite graph is permitted even though its random walk can have eigenvalue minus one. Locate the four-cycle at degree two and normalized gap one.
+**Understanding target:** Interpret the known bound on the second normalized-Laplacian eigenvalue as a separation between the null mode and the useful modes. Locate the four-cycle at degree two and normalized gap one. Explain why its random-walk eigenvalue minus one is compatible with this promise and how a supplied weight contrast enters the weighted singular bound.
 
 **Story role:** Give the structural promise its exact meaning before using it in a cost bound.
 
 **Conceptual connection:** Markov-chain spectra guide quantum constructions, but the relevant eigenvalue separation must be identified rather than replaced by a generic mixing-time slogan.
 
-**Source pointers:** Childs §§18.2–18.3; [gap promise](../science/model.md#graph-access-and-output); [polar singular interval](../science/polar_transport.md#an-explicit-projected-unitary-encoding).
+**Source pointers:** Childs §§18.2–18.3 · [weighted gap promise](../science/weighted_preparation.md) · [regular polar singular interval](../science/polar_transport.md#an-explicit-projected-unitary-encoding).
 
 <a id="m09"></a>
 
@@ -185,7 +185,7 @@ Prerequisites: M07, M09
 
 **Central question:** What changes when a linear map's singular values are replaced by one?
 
-**Understanding target:** Explain that a singular-value decomposition pairs input and output directions, while singular values describe their stretching. The polar factor preserves those pairings and removes the stretching on the nonzero input subspace. It cannot be an isometry on a null direction, which is why the uniform mode is excluded.
+**Understanding target:** Explain how a singular-value decomposition pairs input and output directions. The polar factor preserves those pairings and removes the stretching on the nonzero input subspace. Identify the uniform null mode of the cycle as a special case of the degree-rooted mode.
 
 **Story role:** Identify the desired one-particle operation before studying its implementation.
 
@@ -239,13 +239,13 @@ Prerequisites: M06, M07, M12
 
 **Central question:** What connects a maximal incidence determinant to a spanning tree?
 
-**Understanding target:** Explain why a non-tree set of $`n-1`$ edges has deficient incidence rank, while a tree's reduced determinant has magnitude one. Connect the matrix-tree normalization to the number of trees. On the four-cycle, recognize the reduced signs $`+,-,-,-`$ under the fixed root and edge convention.
+**Understanding target:** Explain why a non-tree set of $`n-1`$ edges has deficient incidence rank and why a tree's reduced determinant has magnitude one. Scale each row by the square root of its edge weight and identify the effect on the signed tree determinant. Connect normalization to the sum of tree weights.
 
-**Story role:** Establish the combinatorial theorem that gives the determinant state its intended support and equal magnitudes.
+**Story role:** Establish the support and weight dependence of the determinant state.
 
 **Conceptual connection:** Connectivity, rank and determinant normalization jointly select trees; the surviving relative signs still need a circuit remedy.
 
-**Source pointers:** Childs §§18.2–18.3 for the spectral framework; local cofactor and matrix-tree derivation in [tree amplitudes](../science/coherent_preparation.md#why-the-nonzero-amplitudes-are-exactly-tree-amplitudes); [four-cycle sign table](../science/interpretation.md#four-cycle-worked-example).
+**Source pointers:** Childs §§18.2–18.3 for the spectral framework · [weighted tree amplitudes](../science/weighted_preparation.md) · [four-cycle sign table](../science/interpretation.md#four-cycle-worked-example).
 
 <a id="m14"></a>
 
@@ -257,31 +257,31 @@ Prerequisites: M01, M03, M04, M05, M08, M09, M10, M11, M12, M13
 
 **Central question:** What must an end-to-end solution accomplish beyond producing the right determinant probabilities?
 
-**Understanding target:** Assemble the graph promises, paid controlled access, known uniform complement, positive endpoint-list output, joint error and work-return requirements into one specification. Explain why the candidate route must solve transport, antisymmetrization, sign removal and cleanup together.
+**Understanding target:** Assemble the known gap and contrast, paid sorted access, positive weighted endpoint-list output and joint error and work-return requirements into one specification. Explain why the route prepares the graph-dependent occupied subspace as well as solving transport, signs and cleanup.
 
 **Story role:** Close the background phase with a global framework rather than one more isolated prerequisite.
 
 **Conceptual connection:** The familiar circuit, walk and matrix tools become a precisely scoped scientific task whose success includes resources and coherent reuse.
 
-**Source pointers:** Childs §1.4, §§18.1–18.3 and §§29.1–29.3; [model and theorem](../science/model.md); [science overview](../science/README.md).
+**Source pointers:** Childs §1.4, §§18.1–18.3 and §§29.1–29.3 · [weighted model and theorem](../science/weighted_preparation.md) · [science overview](../science/README.md).
 
 <a id="m15"></a>
 
-## M15 — Normalized incidence from one controlled rotation
+## M15 — Weighted incidence from local queries
 
 Phase: narrative/innovation
 
 Prerequisites: M05, M07, M09, M14
 
-**Central question:** Why does the actual projected circuit give $`A^\dagger A=(I-P)/2`$?
+**Central question:** How do sorted ports and a weight flag produce the normalized incidence block?
 
-**Understanding target:** Follow the uniform port isometry $`V`$, the difference map $`A=(I-R)V/2`$, and the involution identity $`(I-R)^2=2(I-R)`$. Explain the resulting normalization and why its useful singular values depend on the normalized gap without an extra degree factor.
+**Understanding target:** Prepare a uniform port superposition conditional on the ordinary degree $`d_v`$ and form the antisymmetric port difference. Follow the success factor $`\sqrt{w_e/w_{\max}}`$ shared by the two orientations of edge $`e`$. Read the folded map as $`\Lambda^{1/2}B D^{-1/2}/\sqrt{2w_{\max}}`$ and check its unique null state.
 
 **Story role:** Begin the construction with its load-bearing local identity.
 
 **Conceptual connection:** The LCU difference from Childs becomes a graph incidence block whose exact normalization determines the entire algorithm's spectral cost.
 
-**Source pointers:** Childs §28.3 and §29.1; [projected encoding proof](../science/polar_transport.md#an-explicit-projected-unitary-encoding); [finite encoding checks](../verification/README.md#what-the-checks-establish-on-the-tested-instances).
+**Source pointers:** Childs §28.3 and §29.1 · [weighted projected encoding](../science/weighted_preparation.md) · [regular block construction](../science/polar_transport.md#an-explicit-projected-unitary-encoding).
 
 <a id="m16"></a>
 
@@ -293,13 +293,13 @@ Prerequisites: M08, M10, M11, M15
 
 **Central question:** How does the gap turn the normalized incidence block into a usable transport circuit?
 
-**Understanding target:** Connect the singular threshold $`\sqrt{\gamma/2}`$ to a polar sign transformation of degree $`O(\gamma^{-1/2}\log(n/\epsilon))`$. Explain why the polynomial tolerance is chosen at order $`(\epsilon/n)^2`$, so the full one-particle state error can be made order $`\epsilon/n`$.
+**Understanding target:** Connect the singular threshold $`\sqrt{\gamma/(2\kappa)}`$ to a polar sign transformation of degree $`O(\sqrt{\kappa/\gamma}\log(n/\epsilon))`$. Explain why the polynomial tolerance is chosen at order $`(\epsilon/n)^2`$ so the full one-particle state error stays of order $`\epsilon/n`$.
 
 **Story role:** Convert the algebraic ingredient into a finite-accuracy coherent operation.
 
 **Conceptual connection:** Polynomial transformation and leakage accounting jointly determine a charged isometry, rather than an uncosted inverse square root.
 
-**Source pointers:** Childs §§29.1–29.3 and §2.1; [polar circuit and error](../science/polar_transport.md#the-polar-isometry-and-its-full-state-error); [precision choices](../science/resources.md#parameters-and-precision).
+**Source pointers:** Childs §§29.1–29.3 and §2.1 · [weighted gap and transform](../science/weighted_preparation.md) · [polar circuit and error](../science/polar_transport.md#the-polar-isometry-and-its-full-state-error).
 
 <a id="m17"></a>
 
@@ -311,31 +311,31 @@ Prerequisites: M05, M15, M16
 
 **Central question:** How does an antisymmetric pair of ports become one clean endpoint-encoded edge?
 
-**Understanding target:** Trace the reversible folding of the two ports of an edge into a canonical label and one fixed orientation state. Explain why the orientation qubit can be cleaned, why the resulting map is $`B(L|_{s^\bot})^{-1/2}`$, and where sorted neighbor access pays for erasing the old port index.
+**Understanding target:** Trace the reversible folding of the two ports of each edge into its canonical label and a fixed orientation state. Explain why the symmetric weight factor leaves that orientation state fixed. Follow the paid binary search that erases the old port index when the edge is written as an endpoint pair.
 
 **Story role:** Complete the one-particle route in the same output labels used by the theorem and lower bound.
 
 **Conceptual connection:** An algebraic orientation cancellation and a computational inverse-index lookup are separate obligations, both necessary for the endpoint guarantee.
 
-**Source pointers:** Childs §18.1 and §1.4; [port folding](../science/polar_transport.md#folding-ports-into-undirected-edges); [endpoint cleanup](../science/polar_transport.md#endpoint-encoding-without-graph-dependent-garbage).
+**Source pointers:** Childs §18.1 and §1.4 · [port folding](../science/polar_transport.md#folding-ports-into-undirected-edges) · [endpoint cleanup](../science/polar_transport.md#endpoint-encoding-without-graph-dependent-garbage) · [weighted extension](../science/weighted_preparation.md).
 
 <a id="m18"></a>
 
-## M18 — An explicit complement for arbitrary vertex count
+## M18 — Fill the complement by preparing one missing vertex
 
 Phase: narrative/innovation
 
 Prerequisites: M07, M10, M14
 
-**Central question:** How is the uniform null mode excluded without preparing a table of graph eigenvectors?
+**Central question:** How can one degree-rooted state specify all occupied input directions?
 
-**Understanding target:** Explain the known Householder reflection that sends basis label zero to the uniform valid vertex state. Its remaining $`n-1`$ columns form the required complement. Identify why preserving the valid subspace matters when $`n`$ is not a power of two, and why a generic first-column state preparation alone would not establish that property.
+**Understanding target:** Prepare amplitudes proportional to $`\sqrt{d_v}`$ from uniform labels, a degree-controlled flag and fixed-point amplification. Map each successful label $`v`$ to the signed list omitting $`v`$ and erase the old label by XOR. Explain why antisymmetrizing this superposition fills the orthogonal complement of the null state.
 
-**Story role:** Supply the actual input orbitals for the many-particle circuit.
+**Story role:** Supply the many-particle input by specifying its single excluded direction.
 
-**Conceptual connection:** Simple known-state preparation replaces graph-dependent eigensystem preparation while respecting padded register labels.
+**Conceptual connection:** The Hodge dual converts a one-particle null state into the alternating product of all complementary directions.
 
-**Source pointers:** Childs §§1.1–1.2 and §1.4; [Householder construction and prefix rotations](../science/coherent_preparation.md#a-known-basis-of-the-correct-vertex-subspace).
+**Source pointers:** Childs §§1.1–1.2, §1.4 and §19.3 · [degree-rooted input](../science/weighted_preparation.md) · [weighted diagonal example](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state).
 
 <a id="m19"></a>
 
@@ -347,7 +347,7 @@ Prerequisites: M12, M16, M17, M18
 
 **Central question:** What is produced by applying the same one-particle transport to an antisymmetric input?
 
-**Understanding target:** Follow the occupied modes from the known complement into orthonormal edge orbitals. Explain why linearity preserves the antisymmetric superposition and why the final sorted-subset coefficients depend on orbital determinants rather than separately sampled particles.
+**Understanding target:** Follow the occupied modes from the complement of the degree-rooted null state into orthonormal edge orbitals. Explain why applying the same polar map to each register preserves antisymmetry and gives determinants on sorted edge subsets.
 
 **Story role:** Join the local transport to the global combinatorial state.
 
@@ -393,21 +393,21 @@ Prerequisites: M04, M11, M20
 
 <a id="m22"></a>
 
-## M22 — Uniform tree magnitudes from normalized minors
+## M22 — Weighted tree magnitudes from normalized minors
 
 Phase: narrative/innovation
 
 Prerequisites: M13, M17, M18, M19, M21
 
-**Central question:** Why does the assembled state have equal magnitude on every tree, with no non-tree support in the ideal limit?
+**Central question:** Why is the amplitude of each tree proportional to the square root of its edge-weight product?
 
-**Understanding target:** Connect rank-deficient non-tree minors to zero amplitude, the reduced incidence cofactors to signs of unit magnitude, and the product of nonzero Laplacian eigenvalues to the common normalization. Explain that the basis-completion determinant contributes one global phase, while the reduced tree determinant supplies the remaining relative sign.
+**Understanding target:** Relate the polar orbitals to the root-deleted weighted incidence matrix by a common invertible basis change. Its determinant is shared by all edge subsets. Read the tree-dependent magnitude from the row weights, recognize the rooted sign, and normalize by the sum of the tree products.
 
 **Story role:** Establish the full combinatorial content of the circuit before correcting its phases.
 
-**Conceptual connection:** Polar normalization, orthogonal-complement preparation and the matrix-tree theorem make a determinant state into a uniform signed tree state.
+**Conceptual connection:** The common change of basis leaves the relative amplitudes controlled by the weighted incidence minors.
 
-**Source pointers:** Childs §§18.2–18.3 and §29.1 as foundations; [complete minor and cofactor proof](../science/coherent_preparation.md#why-the-nonzero-amplitudes-are-exactly-tree-amplitudes); [four-cycle signs](../science/interpretation.md#four-cycle-worked-example).
+**Source pointers:** Childs §§18.2–18.3 and §29.1 as foundations · [weighted minor proof](../science/weighted_preparation.md) · [unweighted cofactor proof](../science/coherent_preparation.md#why-the-nonzero-amplitudes-are-exactly-tree-amplitudes).
 
 <a id="m23"></a>
 
@@ -447,21 +447,21 @@ Prerequisites: M04, M20, M23
 
 <a id="m25"></a>
 
-## M25 — Finish the four-cycle state
+## M25 — Finish the weighted four-vertex state
 
 Phase: narrative/innovation
 
 Prerequisites: M02, M17, M19, M21, M22, M23, M24
 
-**Central question:** Where does each amplitude, sign and clean work register end up in the complete small example?
+**Central question:** Where does each amplitude, sign and work register end up after the weighted diagonal is added?
 
-**Understanding target:** Trace the same four-cycle from normalized incidence through polar transport, its three occupied modes, sorted signed tree amplitudes and final sign correction. Explain how the $`+,-,-,-`$ table becomes four positive amplitudes of one half, with both permutation-resource and sign workspace cleaned.
+**Understanding target:** Trace the ordinary degrees $`(3,2,3,2)`$, signed missing-vertex list and three polar transports. Explain why sorting and sign correction return clean work and give amplitudes $`1/\sqrt{12}`$ on each tree omitting the diagonal and $`\sqrt2/\sqrt{12}`$ on each tree using it.
 
-**Story role:** Integrate the mechanism on one complete instance before returning to all-size error and cost.
+**Story role:** Integrate the construction on one complete irregular instance before bounding the general circuit.
 
-**Conceptual connection:** Equal measured probabilities were already present before sign correction; the correction and cleanup establish the stronger pure-state result that M01 specified.
+**Conceptual connection:** Positive amplitudes combine the tree-weight rule with coherent sign correction and workspace cleanup.
 
-**Source pointers:** Childs §§1.1–1.4 for the circuit reading; [complete four-cycle example](../science/interpretation.md#four-cycle-worked-example); [preparation and cleanup](../science/coherent_preparation.md#preparation-and-cleanup-circuit).
+**Source pointers:** Childs §§1.1–1.4 for the circuit reading · [weighted example](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state) · [four-cycle baseline](../science/interpretation.md#four-cycle-worked-example).
 
 <a id="m26"></a>
 
@@ -473,13 +473,13 @@ Prerequisites: M11, M16, M21, M24, M25
 
 **Central question:** Why does the complete circuit satisfy one joint output-and-work error guarantee?
 
-**Understanding target:** Apply a hybrid argument to the $`n-1`$ entangled particle operations and the forward/backward universal resource. Explain why total reversible sign processing preserves existing error even on malformed branches, and why approximation does not permit treating leakage as corrected. Relate a clean preparation and its inverse to an approximate reflection, with repeated-use error charged.
+**Understanding target:** Apply a hybrid argument to the degree-rooted state, the $`n-1`$ entangled particle operations, numerical synthesis and the forward/backward universal permutation resource. Explain why total reversible sign processing preserves the accumulated error even on malformed branches. Relate clean preparation and its inverse to an approximate reflection and charge repeated-use error.
 
 **Story role:** Turn exact identities into the finite-accuracy theorem actually claimed.
 
 **Conceptual connection:** Childs' subadditivity principle links local implementation tolerances to a global coherent interface, rather than to independent successful-block tests.
 
-**Source pointers:** Childs §2.1 and §19.3; [joint error proof](../science/coherent_preparation.md#joint-error-clean-work-and-inversion); [reflections and tree-dependent operations](../science/interpretation.md#reflections-and-tree-dependent-operations).
+**Source pointers:** Childs §2.1 and §19.3 · [weighted precision and work return](../science/weighted_preparation.md) · [reflections](../science/interpretation.md#reflections-and-tree-dependent-operations).
 
 <a id="m27"></a>
 
@@ -491,49 +491,49 @@ Prerequisites: M04, M05, M16, M17, M18, M21, M24, M26
 
 **Central question:** Which resources remain after all local ingredients are assembled?
 
-**Understanding target:** Reconstruct the soft $`O(n/\sqrt\gamma)`$ quantum call scaling, its multiplication by the oracle gate cost, and the separate oracle-workspace term. Include endpoint conversion, sorting, sign gates, precision and classical phase compilation. Explain why the fixed-positive-gap regime has a nearlinear complete bound when the supplied access circuit is efficient.
+**Understanding target:** Assemble $`\widetilde O(n\sqrt{\kappa/\gamma})`$ queries from the one-time $`\widetilde O(\sqrt n)`$ degree-state preparation, transport on each occupied slot and endpoint conversion. Charge the supplied oracle gates and workspace, finite-bit weight arithmetic, sorting, sign gates and separate classical phase compilation.
 
 **Story role:** State the capability in the same cost model as its construction.
 
 **Conceptual connection:** Fast polynomial transformation is one component of the algorithm; its physical interface, work-return obligations and classical circuit preparation determine the complete comparison.
 
-**Source pointers:** Childs §1.5–§1.6 and §2.1; [quantum operations](../science/resources.md#quantum-operations); [classical compilation](../science/resources.md#classical-circuit-compilation); [scope](../science/resources.md#scope-of-the-improvement).
+**Source pointers:** Childs §§1.5–1.6 and §2.1 · [weighted resources](../science/weighted_preparation.md) · [regular baseline resources](../science/resources.md).
 
 <a id="m28"></a>
 
-## M28 — Hard endpoint output at constant gap
+## M28 — A dense fixed-gap family with hidden weight boosts
 
 Phase: narrative/innovation
 
 Prerequisites: M05, M08, M14, M27
 
-**Central question:** How can every valid output tree reveal many hidden bits while the graph remains a regular expander?
+**Central question:** How can changing one weight make a visible difference to the tree law while both normalized gaps stay fixed?
 
-**Understanding target:** Follow the cubic base graph, bounded-size attached gadgets, forced bridges and hidden label swaps. Explain why every tree exposes each swapped bridge endpoint, why relabeling preserves the spectrum, and how the written Poincare comparison supplies a constant gap for the enlarged family.
+**Understanding target:** Start with $`N`$ rows attached to the same $`q`$ core vertices in a clique. Give each row at most one boost from weight one to $`q`$. Use the row and clique energy comparison to justify a constant gap. Use effective resistance and the row cut to bound a candidate edge's inclusion probability with and without its boost.
 
-**Story role:** Introduce the specific family used to test whether the upper bound's vertex dependence is avoidable.
+**Story role:** Build the same physical graph-access promise for the two contrast lower bounds.
 
-**Conceptual connection:** The output encoding matters as much in a lower bound as in a preparation theorem: actual endpoint labels reveal information that an abstract port identifier could hide.
+**Conceptual connection:** A tree edge's inclusion probability carries a constant signal about a hidden weight even though the topology is fixed.
 
-**Source pointers:** Childs §§21.1–21.2; local [graph family](../science/lower_bound.md#1-a-constant-gap-graph-carrying-linearly-many-hidden-bits), [gap comparison](../science/lower_bound.md#2-an-explicit-constant-gap-bound), and [endpoint decoder](../science/lower_bound.md#4-a-measured-endpoint-list-reveals-the-whole-hidden-string).
+**Source pointers:** Childs §§21.1–21.2 for the query framework · [dense family and gap](../science/weight_contrast_lower_bound.md#a-dense-family-with-fixed-gaps) · [edge inclusion comparison](../science/weight_contrast_lower_bound.md#one-edge-event-distinguishes-adjacent-inputs).
 
 <a id="m29"></a>
 
-## M29 — From tree preparation to oracle interrogation
+## M29 — Turn a visible boost into quantum and classical query bounds
 
 Phase: narrative/innovation
 
 Prerequisites: M04, M26, M28
 
-**Central question:** Why does recovering the gadget labels force linearly many quantum queries?
+**Central question:** Why do the same possible boosts impose different costs on quantum and classical samplers?
 
-**Understanding target:** Explain the constant-query simulation of graph access by a hidden-bit oracle and the reduction from a valid tree to the entire hidden string. Follow why a $`T`$-query state contains only Fourier characters of degree at most $`T`$, limiting the dimension available for distinguishing all strings. Preserve the finite-error success guarantee through measurement and decoding.
+**Understanding target:** For the quantum bound, form the Kronecker sum of row stars and see why its norm is $`N\sqrt q`$ while the norm filtered by a particular query is one. Use the edge event to bound the final overlap for an adjacent input pair even at constant output error. For the classical bound, compare each single boost with the all-unit-weight input under shared randomness and sum the probabilities of touching the changed edges.
 
-**Story role:** Complete the lower bound and match the upper bound's vertex scaling at fixed gap.
+**Story role:** Match the quantum square-root contrast cost and compare it with the classical cost on the same dense family.
 
-**Conceptual connection:** Childs' query-polynomial framework becomes a self-contained information-recovery argument for this exact endpoint-output task; it does not establish optimal shrinking-gap dependence.
+**Conceptual connection:** A common sampling distinction supplies two kinds of progress bound, one through quantum state overlap and the other through identical classical transcripts.
 
-**Source pointers:** Childs §§21.1–21.3; [oracle simulation](../science/lower_bound.md#3-constant-query-simulation-of-the-graph-oracles); [interrogation proof](../science/lower_bound.md#5-a-self-contained-oracle-interrogation-bound); [lower-bound scope](../science/lower_bound.md#scope-and-attribution).
+**Source pointers:** Childs §§21.1–21.2 for context · [quantum lower bound](../science/weight_contrast_lower_bound.md#quantum-queries) · [classical lower bound](../science/weight_contrast_lower_bound.md#classical-queries).
 
 <a id="m30"></a>
 
@@ -543,12 +543,12 @@ Phase: narrative/innovation
 
 Prerequisites: M14, M22, M24, M25, M26, M27, M28, M29
 
-**Central question:** What can the field now do under the stated promises, and which stronger conclusions do not follow?
+**Central question:** Which graph promises, outputs and costs go together in the weighted theorem?
 
-**Understanding target:** Explain the complete route from sorted paid graph access to a clean positive endpoint-encoded spanning-tree q-sample, its reusable inverse, and the nearlinear fixed-gap vertex scaling with a matching linear query lower bound up to logarithms. State the restrictions: unweighted regular connected graphs, a known normalized-gap bound, charged oracle gates and workspace, and explicit general-gap phase compilation. Distinguish this capability from a classical-output expander speedup, universal weighted qsampling, practical crossover, or a matching gap lower bound.
+**Understanding target:** Explain the route from sorted local degree and weight queries to clean positive weighted tree amplitudes and a reversible preparation. State the supplied gap and contrast, and the circuit and compilation costs alongside the query count. Read the quantum and classical contrast separation on the dense hard family alongside the older linear bound for regular unweighted graphs. Identify optimal dependence on a shrinking gap and a hardware crossover as separate questions.
 
 **Story role:** Close the map by integrating mechanism, evidence, attribution, cost and scope into one scientific proposition.
 
-**Conceptual connection:** Quantum walk access, polynomial transport and determinant structure produce a coherent combinatorial interface only because normalization, relative signs and every relevant record are handled together.
+**Conceptual connection:** Degree normalization and antisymmetry determine which trees appear, while the local weight filter determines their amplitudes and the cost of learning the weighted interface.
 
-**Source pointers:** Childs §1.6, §§18.1–18.3, §§21.1–21.3 and §§29.1–29.3; [main theorem](../science/model.md#main-theorem), [operational interpretation](../science/interpretation.md), [related-work comparison](../references/related_work.md), and [finite verification boundaries](../verification/README.md).
+**Source pointers:** Childs §1.6, §§18.1–18.3, §§21.1–21.2 and §§29.1–29.3 · [weighted theorem](../science/weighted_preparation.md) · [contrast lower bounds](../science/weight_contrast_lower_bound.md) · [related work](../references/related_work.md).

@@ -1,5 +1,7 @@
 # Complete resource accounting
 
+This page gives the regular, unweighted resource ledger. The [weighted resource ledger](weighted_preparation.md#joint-error-and-resource-accounting) accounts separately for degree and weight queries, the missing-vertex state and arithmetic precision.
+
 The cost is measured from the supplied coherent graph interface to the positive, sorted endpoint-list q-sample. State preparation, permutation records, signs, endpoint conversion, inverses and precision are all included. This page does not charge an input oracle as a unit-cost physical device when its circuit is expensive.
 
 ## Parameters and precision
