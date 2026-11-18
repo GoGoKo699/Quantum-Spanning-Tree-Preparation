@@ -1,8 +1,8 @@
 # Learning the spanning-tree preparation algorithm
 
-A spanning tree connects every vertex of a graph without a cycle. The task here is to prepare a pure quantum state that gives every spanning tree the same positive amplitude, while returning the circuit's working registers to zero. That clean output can be kept coherent and used with the preparation circuit's inverse.
+A spanning tree connects every vertex of a graph without a cycle. The task here is to prepare a pure quantum state whose positive amplitudes have squares proportional to the products of the edge weights in each tree. Equal edge weights give a uniform tree state. The circuit returns its work registers to zero in the same accuracy guarantee, so the tree state can be kept coherent and the preparation inverted.
 
-Begin with the [worked four-cycle route](anchor_bridge.md#a-four-cycle-from-input-to-clean-output). It follows one graph through the output state, local graph access, polar transport, determinant signs and cleanup. The [30-milestone map](milestones.md) then organizes the full account into background and the algorithm's narrative.
+Begin with the [worked four-cycle route](anchor_bridge.md#a-four-cycle-from-input-to-clean-output). Follow the circuit on a uniform cycle, then [add one weighted diagonal](anchor_bridge.md#one-weighted-diagonal-changes-the-input-state) and see how it changes the occupied subspace and tree amplitudes. The [30-milestone map](milestones.md) traces the construction and the query lower bounds.
 
 ## One selected anchor
 
@@ -14,35 +14,27 @@ The notes provide the algorithmic foundations. The project supplies the complete
 
 | Route | Start | What it develops |
 | --- | --- | --- |
-| Concrete example | [Four-cycle route](anchor_bridge.md#a-four-cycle-from-input-to-clean-output) | Why equal tree probabilities are insufficient, how determinant signs arise, and why work must be cleaned |
+| Concrete example | [Four-cycle route](anchor_bridge.md#a-four-cycle-from-input-to-clean-output) | How one weighted diagonal changes the null mode and tree amplitudes, and why the sign and sorting work must be cleaned |
 | Full conceptual map | [M01–M30](milestones.md) | Fourteen background targets followed by sixteen targets assembling the algorithm and its boundaries |
-| Mathematical construction | [Model](../science/model.md), then [science index](../science/README.md) | Exact assumptions, theorem, proofs and resource accounting |
+| Mathematical construction | [Weighted preparation](../science/weighted_preparation.md) | Exact assumptions, theorem, proofs and resource accounting |
+| Sharp contrast dependence | [Weight-query lower bounds](../science/weight_contrast_lower_bound.md) | A dense example that separates quantum and classical weight queries even when both normalized gaps stay positive |
 | Checks and examples | [Verification](../verification/README.md) | What the reproducible finite checks establish and where the proofs are needed |
 
-The background phase starts with a single graph, a register and a reversible operation, then joins them into the language of graph oracles, spectral gaps and singular-value transformations. The narrative phase starts with the incidence map and assembles the occupied vertex subspace, clean permutation resource, edge-state transport, positive sign correction and final resource claim. Its last targets bring those pieces together; the map is not a list of thirty independent topics.
+The background phase introduces graph oracles, spectral gaps and singular-value transformations through the running example. The narrative phase builds the weighted incidence map, prepares the excluded degree-rooted mode as an omitted vertex, and follows the occupied modes through polar transport, sorting and sign correction. Its last targets derive the query separation on a new family of graphs.
 
 ## The complete claim in one place
 
-For a connected, simple, unweighted regular graph on $`n`$ vertices, assume a known lower bound $`\gamma>0`$ on its normalized-Laplacian gap. Conventional endpoint output uses a rotation map whose ports follow increasing neighbor order, or sorted adjacency-list access. Access to an arbitrary classical edge table is not supplied for free.
+Start with a connected simple graph on $`n`$ vertices, positive weights in a supplied range $`[w_{\min},w_{\max}]`$ and a known lower bound $`\gamma>0`$ on either the weighted or unweighted normalized-Laplacian gap. The graph access provides ordinary vertex degrees, plus neighbors and edge weights in sorted port order. Write $`\kappa=w_{\max}/w_{\min}`$ for the promised contrast.
 
-The preparation uses
-
-```math
-O\!\left(n\gamma^{-1/2}\log\frac n\epsilon\right)
-```
-
-rotation calls, up to the stated extra logarithmic conversion factor for sorted adjacency-list queries. If one clean rotation circuit costs $`C_R`$ gates and $`S_R`$ scratch qubits, the quantum cost is
+The preparation uses the following number of coherent queries.
 
 ```math
-\widetilde O\!\left(n\gamma^{-1/2}(C_R+1)\right)
-\quad\text{gates},\qquad
-\widetilde O(n)+O(S_R)
-\quad\text{qubits}.
+\widetilde O\!\left(n\sqrt{\frac{\kappa}{\gamma}}\right).
 ```
 
-The work return and output error are one joint-state guarantee. The classical phase-compilation cost $`C_{\mathrm{phase}}`$ is also charged: at fixed positive gap it is polylogarithmic in the size and accuracy parameters, while a shrinking-gap total-time claim must retain it explicitly. See [resources](../science/resources.md) for the complete conventions.
+The bound includes the one-time degree-state preparation, the polar transport on $`n-1`$ registers and the endpoint conversion. The quantum gate and workspace accounting also charges the supplied oracle circuits, reversible arithmetic on their finite-bit inputs, and sorting and sign correction. The precision budget covers the tree and work registers together. The [resource proof](../science/weighted_preparation.md#joint-error-and-resource-accounting) spells out the logarithmic factors and charges classical phase compilation separately.
 
-At constant gap and inexpensive supplied graph access, this gives a nearlinear circuit for a clean positive tree state. Classical random-tree sampling on such graphs is already nearlinear. The coherent state, its inverse and the explicit cleanup are the capability established here.
+For dense examples with fixed normalized gaps and growing contrast in the stated range, one quantum tree sample needs $`\Omega(n\sqrt{\kappa})`$ queries and one classical tree sample needs $`\Omega(n\kappa)`$ expected queries in the same access model. The separation concerns queries on that family. See the [weight-query lower bounds](../science/weight_contrast_lower_bound.md) and the [regular unweighted baseline](../science/model.md).
 
 [Return to the project](../README.md)
 

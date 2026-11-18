@@ -2,7 +2,7 @@
 
 Selected anchor: Andrew M. Childs, Lecture Notes on Quantum Algorithms (17 April 2025).
 
-The [author's source page](https://www.cs.umd.edu/~amchilds/qa/) identifies the notes. This bridge explains the project through one four-vertex graph before locating the background in that source. The [milestone map](milestones.md) gives the complete conceptual route; the [science index](../science/README.md) gives direct access to the proofs.
+The [author's source page](https://www.cs.umd.edu/~amchilds/qa/) identifies the notes. This bridge follows a four-vertex graph through the clean preparation circuit, then adds one weighted edge and follows what changes. The [milestone map](milestones.md) gives the complete route. The [science index](../science/README.md) links to the proofs.
 
 ## A four-cycle from input to clean output
 
@@ -89,13 +89,13 @@ This is an inherited algorithmic primitive. The graph-specific work is construct
 
 ### 5. Fill the entire uniform-complement subspace
 
-There are $`n-1=3`$ independent vertex directions orthogonal to $`s`$. Choose an orthonormal basis of that subspace and place one particle in each basis direction. The general compiler constructs the basis with a graph-independent Householder reflection, a reflection mapping one known basis vector to $`s`$ while preserving the valid vertex space. It does not compute the graph's eigenvectors.
+There are $`n-1=3`$ independent vertex directions orthogonal to $`s`$. Choose an orthonormal basis of that subspace and place one particle in each basis direction. For the regular baseline, a graph-independent Householder reflection maps one known basis vector to $`s`$ while preserving the valid vertex space. The other columns give the occupied basis.
 
 The particles are encoded in three separate label registers. Antisymmetrization gives a minus sign whenever two particle registers are exchanged. For three distinct labels $`x_1\lt x_2\lt x_3`$, the normalized antisymmetric state contains all six orderings with their permutation signs and a common magnitude $`1/\sqrt6`$. This is the first-quantized representation of a Slater determinant.
 
 Applying the same one-particle isometry $`W`$ to all three registers transports their occupied subspace into the edge space. Antisymmetry makes the amplitude of a sorted edge subset a determinant of its three occupied edge orbitals. This determinant rule is established fermionic linear algebra; it is the connection used by the compiler.
 
-There are four three-edge subsets in the cycle, and every one is a tree. In a general graph, a non-tree subset of $`n-1`$ edges has rank-deficient incidence rows and its determinant amplitude vanishes. The matrix-tree identity normalizes the remaining tree amplitudes to equal magnitude.
+There are four three-edge subsets in the cycle, and every one is a tree. In a general graph, a non-tree subset of $`n-1`$ edges has rank-deficient incidence rows and its determinant amplitude vanishes. For unit edge weights the matrix-tree identity gives every surviving tree amplitude the same magnitude.
 
 ### 6. Remove the particle-order records cleanly
 
@@ -143,7 +143,7 @@ For general trees, fixed sorting networks and Euler-tour pointer doubling comput
 
 The example ends with the four positive amplitudes and clean work registers. Measuring returns one uniformly random tree. Keeping the state coherent also keeps the possibility of reversing its preparation or constructing a reflection from the preparation and its inverse.
 
-For general $`n`$ and requested joint-state error $`\epsilon`$, the rotation-call bound is
+For the regular, unweighted baseline on $`n`$ vertices and requested joint-state error $`\epsilon`$, the rotation-call bound is
 
 ```math
 O\!\left(n\gamma^{-1/2}\log\frac n\epsilon\right).
@@ -163,7 +163,47 @@ The [resource statement](../science/resources.md) also charges:
 
 The quantum gate count is $`\widetilde O(n\gamma^{-1/2}(C_R+1))`$ and peak space is $`\widetilde O(n)+O(S_R)`$. For fixed positive gap, polynomial-time phase compilation adds only polylogarithmic cost. For a shrinking gap, its actual $`C_{\mathrm{phase}}`$ must remain in a total implementation-time claim.
 
-The four-cycle is a worked example, not an advantage benchmark. Ordinary classical tree sampling is already nearlinear on constant-gap regular graphs. The established capability is a clean positive coherent state under the stated graph access and gap promises. The [endpoint lower bound](../science/lower_bound.md) matches the vertex dependence up to logarithms at fixed gap; optimal dependence on a shrinking gap is not proved.
+The four-cycle illustrates the clean positive output. The [regular, unweighted endpoint lower bound](../science/lower_bound.md) matches the vertex dependence up to logarithms at fixed gap. Weight contrasts require a separate construction and comparison.
+
+## One weighted diagonal changes the input state
+
+Add the diagonal $`02`$ with weight two and keep each cycle edge at weight one. The four trees that omit it each have edge-weight product one. Each tree that includes it chooses one link from $`\{01,12\}`$ and one from $`\{03,23\}`$, giving four trees with product two. The sum of tree weights is $`4+4\cdot2=12`$. After sign correction each tree omitting $`02`$ has amplitude $`1/\sqrt{12}`$, and each tree containing it has amplitude $`\sqrt{2}/\sqrt{12}`$. The squared amplitudes give probabilities $`1/12`$ and $`1/6`$ respectively.
+
+**The local map.** Vertex degrees are now $`(3,2,3,2)`$. Write $`D=\mathrm{diag}(3,2,3,2)`$ and let $`\Lambda`$ be the diagonal matrix of edge weights. The circuit queries the ordinary vertex degree and creates a uniform superposition over that many ports. It forms the antisymmetric port difference and uses a reversible flag rotation with success amplitude $`\sqrt{w_e/w_{\max}}`$ for edge $`e`$. Both ends of an edge receive the same factor, so folding still gives one fixed orientation state. The folded block is
+
+```math
+A=\frac{\Lambda^{1/2}B D^{-1/2}}{\sqrt{2w_{\max}}}.
+```
+
+Here $`B`$ is the incidence matrix of the graph with the diagonal, with the same orientation convention as before. Applying $`D^{-1/2}`$ makes the degree-rooted state
+
+```math
+|s_D\rangle=\frac{\sqrt3|0\rangle+\sqrt2|1\rangle
+                       +\sqrt3|2\rangle+\sqrt2|3\rangle}{\sqrt{10}}
+```
+
+constant across vertices, so $`A|s_D\rangle=0`$. For a connected graph this is the only null direction. The contrast here is $`\kappa=2`$. In general the nonzero singular values are at least $`\sqrt{\gamma/(2\kappa)}`$ under the gap promise in the [weighted preparation theorem](../science/weighted_preparation.md).
+
+**The occupied state.** Prepare $`|s_D\rangle`$ by starting from uniform vertex labels and querying the degree. A flag rotation with success probability $`d_v/(n-1)`$ makes the successful branch proportional to $`\sqrt{d_v}`$. Coherent fixed-point amplification prepares this branch to the requested accuracy. On the example its success probability before amplification is $`10/12`$. In general the probability is at least $`2/n`$.
+
+Read vertex label $`v`$ as the position of the missing vertex. Write the sorted list of all other vertices, apply the phase $`(-1)^v`$, and erase the missing label using the XOR of the list and the XOR of all graph vertex labels. Antisymmetrize the list using the same reusable permutation state as before. On the example, writing $`|123\rangle_\wedge`$ for the normalized antisymmetric state of those three labels, the occupied input is
+
+```math
+\frac{\sqrt3|123\rangle_\wedge-\sqrt2|023\rangle_\wedge
+      +\sqrt3|013\rangle_\wedge-\sqrt2|012\rangle_\wedge}{\sqrt{10}}.
+```
+
+This is the Hodge dual of $`|s_D\rangle`$, the alternating product that fills its entire orthogonal complement. One omitted-vertex register specifies all occupied modes. [Weighted preparation](../science/weighted_preparation.md) proves the correspondence and accounts for the preparation cost.
+
+**The tree state.** Apply the polar isometry to each of the three particle registers as on the original cycle. Relative to the reduced incidence matrix, positive edge weights scale each tree's determinant by the square root of its edge-weight product. They leave the sign of the reduced incidence determinant intact. The reused sorting and rooting circuits therefore give the positive tree amplitudes computed above while clearing their work.
+
+The full weighted construction costs $`\widetilde O(n\sqrt{\kappa/\gamma})`$ local queries. Its soundness follows from the joint state bound, which includes errors in the degree-rooted state, the polar transformations, and reversible arithmetic. At fixed positive gap and bounded contrast the query count is near linear in $`n`$.
+
+### Why the contrast cost is real
+
+To see a worst case, move from the worked example to a dense graph built from a core clique and many extra vertices. Each extra vertex has the same $`q`$ potential attachments to the core. In each row of attachments, at most one edge has its weight raised from one to $`q`$. The topology is identical on every input and both normalized gaps stay bounded away from zero. Measuring whether the tree uses a specified attachment distinguishes the inputs with and without that boost by a constant probability difference.
+
+The quantum proof combines all the single-row search instances in one adversary argument. The classical proof compares each singly boosted graph with the all-unit-weight graph. A classical algorithm sees the same transcript until it asks about the one changed edge, so it must query a constant fraction of all possible boosts in expectation. On this family the two bounds scale as $`\Omega(n\sqrt{\kappa})`$ quantum queries and $`\Omega(n\kappa)`$ expected classical queries. See the [weight-contrast proof](../science/weight_contrast_lower_bound.md).
 
 ## How the anchor connects to this project
 
@@ -173,20 +213,22 @@ Read the selected parts when the corresponding object appears in the example. Re
 | --- | --- | --- |
 | §1.4, reversible computation | Preserve information in a circuit and later uncompute it | Clean graph lookup, sorting records and sign workspace |
 | §2.1, subadditivity of errors | Bound a circuit's error by its component errors | Joint output/work guarantee across all particles |
-| Chapter 18, discrete-time walks | Graph states, local shifts and the connection to Markov spectra | The incidence identity $`A^\dagger A=(I-P)/2`$ |
+| Chapter 18, discrete-time walks | Graph states, local shifts and the connection to Markov spectra | The cycle identity $`A^\dagger A=(I-P)/2`$ and its degree-normalized weighted continuation |
+| §19.3, amplitude amplification | Increase a selected branch coherently | Prepare the degree-rooted vertex state and the reusable permutation state |
+| §§21.1–21.2 and Chapter 23, query complexity and the adversary method | Compare information revealed by local queries | The constant-gap weight contrast construction |
 | §28.3, linear combinations of unitaries | Implement sums through coherent control | Construct the projected difference $`(I-R)V/2`$ |
 | §§29.1–29.3, block encoding, QSP and qubitization | Encode an operator and transform its spectrum polynomially | Rectangular singular-vector polar transport with gap-dependent cost |
 
-The notation is translated in the [model](../science/model.md): $`n`$ counts vertices, $`d`$ is graph degree, $`\gamma`$ is the normalized-Laplacian gap, and $`\epsilon`$ is the complete output-state tolerance. The letter $`A`$ denotes a rectangular vertex-to-port map, not a quantum adjacency matrix.
+In the [weighted model](../science/weighted_preparation.md), $`n`$ counts vertices, $`d_v`$ is ordinary vertex degree, $`\gamma`$ is the normalized-Laplacian gap bound, $`\kappa`$ is the weight contrast and $`\epsilon`$ is the complete output-state tolerance. The letter $`A`$ denotes the rectangular incidence block from vertex labels to port or edge labels.
 
 The source's block-encoding language is extended to two different projected input and output spaces. That rectangular step uses the primary QSVT/polar research results cited in [related work](../references/related_work.md). The source is an entry point, not a claim that its Hermitian examples alone prove the graph transform.
 
 ## Steps supplied by the project
 
-Four bridges are essential to the result and are developed locally:
+Four steps connect the source to the project.
 
-1. **Graph incidence to polar transport.** The projected graph circuit has unit normalization, a known kernel, and nonzero singular gap at least $`\sqrt{\gamma/2}`$.
-2. **One-particle maps to tree amplitudes.** Filling $`s^\bot`$, antisymmetrizing and applying the map on each register gives determinant amplitudes; the matrix-tree identity identifies and normalizes the trees.
+1. **Graph incidence to polar transport.** The projected local graph circuit exposes weighted edge differences and has nonzero singular gap at least $`\sqrt{\gamma/(2\kappa)}`$.
+2. **One missing vertex to tree amplitudes.** The degree-rooted input fills the orthogonal complement of $`s_D`$ after antisymmetrization. Polar transport gives tree determinants and the weighted matrix-tree identity fixes their normalization.
 3. **A reusable universal permutation resource.** Coherent resource preparation, factorization and its inverse clean all permutation records.
 4. **Signed trees to positive endpoint trees.** Rooting, sign computation, sorted-access endpoint conversion and their inverses implement the required positive-amplitude encoding.
 

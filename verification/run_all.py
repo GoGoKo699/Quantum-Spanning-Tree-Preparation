@@ -535,7 +535,141 @@ def check_irregular_boundary():
     require(rank == 4, "two components yield rank n-2")
     return {"irregular_graph": "four-vertex star", "uniform_null_residual": uniform_residual,
             "disconnected_regular_rank": rank,
-            "limits": "Regularity and connectivity are actual input promises."}
+            "limits": "The uniform-orbital specialization requires regularity. Connectivity gives rank n-1."}
+
+
+def check_weighted_minors():
+    cases = [
+        ("weighted path", 4, [(0, 1, 2), (1, 2, 7), (2, 3, 3)]),
+        ("weighted star", 5, [(0, 1, 3), (0, 2, 1), (0, 3, 9), (0, 4, 4)]),
+        ("weighted triangle and tail", 5,
+         [(0, 1, 1), (0, 2, 5), (1, 2, 7), (1, 3, 2), (3, 4, 4)]),
+        ("weighted graph with intersecting cycles", 5,
+         [(0, 1, 1), (0, 2, 7), (0, 4, 2), (1, 2, 2), (1, 3, 8), (2, 3, 6), (3, 4, 3)]),
+    ]
+    reports = []
+    for name, n, weighted_edges in cases:
+        edges = [(u, v) for u, v, _ in weighted_edges]
+        weights = np.array([w for _, _, w in weighted_edges], dtype=int)
+        b = incidence(n, edges)
+        degrees = np.abs(b).sum(axis=0)
+        weighted_degrees = np.abs(b).T @ weights
+        laplacian = b.T @ (weights[:, None] * b)
+        partition = integer_det(laplacian[:-1, :-1])
+        weight_cap = int(weights.max())
+        contrast = weight_cap / weights.min()
+
+        coin = np.zeros((2 * len(edges), n))
+        for j, (u, v) in enumerate(edges):
+            coin[2 * j, u] = 1 / math.sqrt(degrees[u])
+            coin[2 * j + 1, v] = 1 / math.sqrt(degrees[v])
+        reverse = np.arange(len(coin)) ^ 1
+        flagged = np.repeat(np.sqrt(weights / weight_cap), 2)[:, None] * (coin - coin[reverse]) / 2
+        folded = (flagged[::2] - flagged[1::2]) / math.sqrt(2)
+        incidence_block = np.sqrt(weights / (2 * weight_cap))[:, None] * b / np.sqrt(degrees)
+        small(norm(folded - incidence_block), "weighted flag and arc fold give the incidence block")
+
+        degree_state = np.sqrt(degrees / degrees.sum())
+        small(norm(folded @ degree_state), "degree-rooted null vector")
+        u, singular, vh = np.linalg.svd(folded, full_matrices=False)
+        active = singular > 1e-11
+        require(int(active.sum()) == n - 1, "connected weighted incidence rank")
+        polar = u[:, active] @ vh[active]
+        small(norm(polar.T @ polar - np.eye(n) + np.outer(degree_state, degree_state)),
+              "weighted polar transports the degree-rooted complement")
+        normalized = b / np.sqrt(degrees)
+        unweighted_gap = float(np.linalg.eigvalsh(normalized.T @ normalized)[1])
+        weighted_gap = float(np.linalg.eigvalsh(laplacian / np.sqrt(np.outer(weighted_degrees, weighted_degrees)))[1])
+        require(float(singular[active].min())**2 >= max(unweighted_gap, weighted_gap) / (2 * contrast) - TOL,
+                "singular bound from either normalized gap")
+
+        omitted_columns = [[u for u in range(n) if u != v] for v in range(n)]
+        amplitudes, expected = [], []
+        enumerated_partition = 0
+        for subset in itertools.combinations(range(len(edges)), n - 1):
+            rows = list(subset)
+            amplitude = sum((-1)**v * degree_state[v] * np.linalg.det(polar[np.ix_(rows, columns)])
+                            for v, columns in enumerate(omitted_columns))
+            rooted_sign = integer_det(b[rows, :-1])
+            tree = is_tree(n, [edges[j] for j in rows])
+            require((rooted_sign != 0) == tree, "weighted subset tree test matches incidence minor")
+            product = math.prod(int(weights[j]) for j in rows)
+            if tree:
+                require(abs(rooted_sign) == 1, "weighted branch retains rooted incidence sign")
+                enumerated_partition += product
+            expected.append(rooted_sign * math.sqrt(product / partition))
+            amplitudes.append(amplitude)
+        require(enumerated_partition == partition, "weighted enumeration matches matrix-tree determinant")
+        actual = np.array(amplitudes)
+        expected = np.array(expected)
+        first_tree = int(np.flatnonzero(expected)[0])
+        global_sign = np.sign(actual[first_tree] * expected[first_tree])
+        maximum_error = float(np.max(np.abs(global_sign * actual - expected)))
+        small(maximum_error, "Hodge and polar yield weighted tree amplitudes with one global sign")
+        small(abs(float(actual @ actual) - 1), "weighted exterior state normalization")
+        reports.append({"graph": name, "vertices": n, "weight_contrast": float(contrast),
+                        "tested_minors": len(actual), "weighted_partition": partition,
+                        "maximum_amplitude_error": maximum_error,
+                        "unweighted_gap": unweighted_gap, "weighted_gap": weighted_gap})
+    return reports
+
+
+def check_weight_contrast_gadgets():
+    rng = np.random.default_rng(191)
+    reports = []
+    for n_rows, sites in ((8, 8), (12, 8), (20, 9), (24, 24)):
+        patterns = [np.zeros(n_rows, dtype=int), np.ones(n_rows, dtype=int),
+                    np.arange(n_rows) % (sites + 1)]
+        patterns.extend(rng.integers(0, sites + 1, n_rows) for _ in range(9))
+        minimum_gap, minimum_marked, maximum_unmarked = 2.0, 1.0, 0.0
+        for marks in patterns:
+            adjacency = np.zeros((2 * n_rows, 2 * n_rows))
+            adjacency[n_rows:, n_rows:] = np.ones((n_rows, n_rows)) - np.eye(n_rows)
+            for i, j in itertools.product(range(n_rows), range(sites)):
+                weight = sites if marks[i] == j + 1 else 1
+                adjacency[i, n_rows + j] = adjacency[n_rows + j, i] = weight
+            topology = (adjacency > 0).astype(float)
+            degrees = topology.sum(axis=1)
+            weighted_degrees = adjacency.sum(axis=1)
+            laplacian = np.diag(degrees) - topology
+            weighted_laplacian = np.diag(weighted_degrees) - adjacency
+            for matrix, diagonal in ((laplacian, degrees), (weighted_laplacian, weighted_degrees)):
+                gap = float(np.linalg.eigvalsh(matrix / np.sqrt(np.outer(diagonal, diagonal)))[1])
+                require(gap >= 1/14 - TOL, "dense lower family has constant weighted and unweighted gaps")
+                minimum_gap = min(minimum_gap, gap)
+
+            pseudoinverse = np.linalg.pinv(weighted_laplacian, hermitian=True)
+            for i, j in itertools.product(range(n_rows), range(sites)):
+                endpoint = n_rows + j
+                resistance = pseudoinverse[i, i] + pseudoinverse[endpoint, endpoint] - 2*pseudoinverse[i, endpoint]
+                probability = float(adjacency[i, endpoint] * resistance)
+                if marks[i] == j + 1:
+                    require(probability >= sites/(2*sites-1) - TOL, "marked edge has constant marginal")
+                    minimum_marked = min(minimum_marked, probability)
+                if marks[i] == 0:
+                    require(probability <= 2/sites + TOL, "edge in unmarked row has small marginal")
+                    maximum_unmarked = max(maximum_unmarked, probability)
+        reports.append({"rows": n_rows, "sites": sites, "tested_patterns": len(patterns),
+                        "minimum_normalized_gap": minimum_gap, "minimum_marked_marginal": minimum_marked,
+                        "maximum_unmarked_marginal": maximum_unmarked})
+
+    n_rows, sites = 3, 4
+    inputs = np.array(list(itertools.product(range(sites + 1), repeat=n_rows)))
+    star = np.zeros((sites + 1, sites + 1))
+    star[0, 1:] = star[1:, 0] = 1
+    adversary = np.zeros((len(inputs), len(inputs)))
+    for i in range(n_rows):
+        left_identity = np.eye((sites + 1)**i)
+        right_identity = np.eye((sites + 1)**(n_rows - i - 1))
+        adversary += np.kron(left_identity, np.kron(star, right_identity))
+    spectral_norm = max(abs(np.linalg.eigvalsh(adversary)))
+    small(abs(spectral_norm - n_rows*math.sqrt(sites)), "star-sum adversary norm")
+    for i, j in itertools.product(range(n_rows), range(1, sites + 1)):
+        replies = inputs[:, i] == j
+        mask = replies[:, None] != replies[None, :]
+        spectral_norm = max(abs(np.linalg.eigvalsh(adversary * mask)))
+        small(abs(spectral_norm - 1), "query mask retains one star link")
+    return {"dense_graphs": reports, "adversary_inputs": len(inputs), "checked_cross_masks": n_rows * sites}
 
 
 def hidden_bit_graph(base_n, base_edges, bits):
@@ -621,6 +755,8 @@ def run():
         "approximation_and_leakage": check_approximation_and_leakage(cached),
         "promise_boundaries": check_irregular_boundary(),
         "hidden_bit_lower_gadgets": check_lower_gadgets(),
+        "weighted_incidence_hodge_and_minors": check_weighted_minors(),
+        "weight_contrast_lower_gadgets": check_weight_contrast_gadgets(),
         "not_verified": ["optimal-degree QSVT synthesis", "elementary gate counts or device execution",
                          "efficient clean endpoint conversion for arbitrary port orders (the endpoint theorem requires sorted access)",
                          "arbitrary-size gap theorem or quantum query lower bound",
@@ -639,6 +775,7 @@ def main():
         args.json.write_text(json.dumps(report, indent=2)+"\n", encoding="utf-8")
     print("PASS: incidence/polar/minors; 1,441 labelled-tree signs; three end-to-end states;")
     print("      dilation/leakage, promise boundaries, and two cubic hidden-bit gadget families.")
+    print("      Weighted Hodge and minors, dense contrast gadgets, and adversary masks.")
     if args.json:
         print(f"JSON report: {args.json}")
 
