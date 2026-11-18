@@ -59,7 +59,7 @@ Apply the existing [clean antisymmetrizer](coherent_preparation.md#a-universal-c
 
 ## From the polar factor to positive weights
 
-Apply the [polar transformation](polar_transport.md#the-polar-isometry-and-its-full-state-error) to the $`n-1`$ slots, fold the ports, and convert them into endpoints. For an orthonormal matrix $`Q`$ spanning $`s_D^\perp`$, denote the transported orthonormal columns by $`C`$. The ideal edge-space wedge has sorted-set coefficient $`\det C_S`$.
+Apply the [polar transformation](polar_transport.md#the-polar-isometry-and-its-full-state-error) to the $`n-1`$ slots, fold the ports, and convert them into endpoints. For an orthonormal matrix $`Q`$ spanning the orthogonal complement of $`s_D`$, denote the transported orthonormal columns by $`C`$. The ideal edge-space wedge has sorted-set coefficient $`\det C_S`$.
 
 The columns of $`C`$ span the same cut space as $`W^{1/2}\overline B`$, where $`\overline B`$ deletes one fixed root column from $`B`$. Indeed, $`D^{-1/2}`$ is invertible and deleting the root column preserves the image of $`B`$ by connectivity. Thus $`C=W^{1/2}\overline B M`$ for one invertible matrix $`M`$. For every edge subset $`S`$ of size $`n-1`$,
 
@@ -77,7 +77,7 @@ Set $`r=n-1`$. Choose the bounded odd polynomial for the polar block with error 
 D_{\rm pol}=O\!\left(\sqrt{\kappa/\gamma}\log\frac{n}{\epsilon}\right).
 ```
 
-The successful block overlaps the ideal isometry by at least $`1-\delta`$ uniformly on the supported input subspace. The corresponding full-unitary one-slot error is at most $`\sqrt{2\delta}`$, including the flags and other leakage. The same bound holds on an entangled reference. In a slot-by-slot hybrid, every unprocessed ideal slot remains in $`s_D^\perp`$. Allocate a fixed fraction of the error budget to the $`r`$ polar calls, one to the amplified hole, one to preparation and erasure of the permutation resource, and one to gate synthesis. Subsequent reversible operations preserve the norm budget. Endpoint conversion can append weights using reversible binary search and clean uncomputation.
+The successful block overlaps the ideal isometry by at least $`1-\delta`$ uniformly on the supported input subspace. The corresponding full-unitary one-slot error is at most $`\sqrt{2\delta}`$, including the flags and other leakage. The same bound holds on an entangled reference. In a slot-by-slot hybrid, every unprocessed ideal slot remains orthogonal to $`s_D`$. Allocate a fixed fraction of the error budget to the $`r`$ polar calls, one to the amplified hole, one to preparation and erasure of the permutation resource, and one to gate synthesis. Subsequent reversible operations preserve the norm budget. Endpoint conversion can append weights using reversible binary search and clean uncomputation.
 
 There are $`O(rD_{\rm pol})`$ uses of the ideal incidence block, each with at most $`O(\log n)`$ local queries. Preparing the hole uses $`O(\sqrt n\log(1/\epsilon))`$ degree queries. Port folding, endpoint conversion and optional weight attachment use $`O(n\log n)`$ local queries in total. All fit the theorem's soft query count.
 

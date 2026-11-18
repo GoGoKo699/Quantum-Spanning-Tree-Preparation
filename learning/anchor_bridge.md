@@ -228,7 +228,7 @@ The source's block-encoding language is extended to two different projected inpu
 Four steps connect the source to the project.
 
 1. **Graph incidence to polar transport.** The projected local graph circuit exposes weighted edge differences and has nonzero singular gap at least $`\sqrt{\gamma/(2\kappa)}`$.
-2. **One missing vertex to tree amplitudes.** The degree-rooted input fills $`s_D^\perp`$ after antisymmetrization. Polar transport gives tree determinants and the weighted matrix-tree identity fixes their normalization.
+2. **One missing vertex to tree amplitudes.** The degree-rooted input fills the orthogonal complement of $`s_D`$ after antisymmetrization. Polar transport gives tree determinants and the weighted matrix-tree identity fixes their normalization.
 3. **A reusable universal permutation resource.** Coherent resource preparation, factorization and its inverse clean all permutation records.
 4. **Signed trees to positive endpoint trees.** Rooting, sign computation, sorted-access endpoint conversion and their inverses implement the required positive-amplitude encoding.
 
